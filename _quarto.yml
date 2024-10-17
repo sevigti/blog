@@ -1,0 +1,21 @@
+project:
+  type: website
+
+website:
+  title: "blog"
+  navbar:
+    right:
+      - text: "Projects"
+        href: projects.qmd
+      - about.qmd
+      - icon: github
+        href: https://github.com/sevigti
+      - icon: twitter
+        href: https://x.com/elvis_visi23
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+
+
+

@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: 355b2688-f070-406a-b81a-4e7830dd0ec3
+      url: 'https://sevigti.quarto.pub/visi'

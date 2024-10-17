@@ -1,0 +1,15 @@
+---
+title: "Projects"
+---
+
+## [Tic tac toe](https://elvis-visi.github.io/Tic-Tac-Toe-/)
+
+[![Tic tac toe](images/tictactoe.png)](https://elvis-visi.github.io/Tic-Tac-Toe-/)
+
+A classic Tic Tac Toe game developed using JavaScript, HTML, and CSS.
+
+## [Another Project](https://your-another-project-link.com)
+
+[![Another Project](images/tictactoe.png)](https://your-another-project-link.com)
+
+Brief description of another project.
