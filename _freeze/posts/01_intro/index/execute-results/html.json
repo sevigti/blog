@@ -1,0 +1,12 @@
+{
+  "hash": "e6bef8b5e4acfc374413eced8ed00104",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"ML intro\"\nauthor: \"visi\"\ndate: \"2024-10-22\"\ncategories: \n    - fastai\n    - ML\n---\n\n\nThis is the first post in a Quarto blog. Welcome!\n\n![](thumbnail.jpg)\n\nSince this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.\n\n::: {#c0ed9844 .cell execution_count=1}\n``` {.python .cell-code}\na = 2 \nprint(2)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n2\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
