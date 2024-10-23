@@ -16,5 +16,14 @@
   },
   "posts/01_intro/index.qmd": {
     "index.html": "35d814fb"
+  },
+  "posts/01_intro/01_intro.qmd": {
+    "01_intro.html": "c3690cba"
+  },
+  "notebooks/01_intro.ipynb": {
+    "01_intro.html": "5f2b5d8a"
+  },
+  "posts/01_intro/01-own-model.qmd": {
+    "01-own-model.html": "12728bc5"
   }
 }

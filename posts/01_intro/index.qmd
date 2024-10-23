@@ -1,22 +1,243 @@
 ---
-title: "ML intro"
-author: "visi"
-date: "2024-10-22"
-categories: 
-    - fastai
-    - ML
+title: '01 Intro to Machine Learning'
+jupyter: python3
 ---
-
-This is the first post in a Quarto blog. Welcome!
 
 ![](thumbnail.jpg)
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+# Goal: Build an image recognizer
 
 
 ```{python}
-
-a = 2 
-print(2)
-
+#| trusted: true
+#| output: false
+! pip install duckduckgo-search
 ```
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T07:41:21.484926Z', iopub.execute_input: '2024-10-23T07:41:21.485492Z', iopub.status.idle: '2024-10-23T07:41:21.494577Z', shell.execute_reply.started: '2024-10-23T07:41:21.485436Z', shell.execute_reply: '2024-10-23T07:41:21.492500Z'}
+from duckduckgo_search import DDGS
+from fastcore.all import *
+
+def search_images(term, max_images=30):
+    """
+    Search for images using DuckDuckGo's search engine
+    
+    Parameters:
+    - term: search term/query (e.g., "cars", "bikes")
+    - max_images: maximum number of images to return (default 30)
+    
+    Returns:
+    - List of image URLs
+    """
+    print(f"Searching for '{term}'")
+    
+    with DDGS() as ddgs:  # Create a DuckDuckGo search session
+        # Process:
+        # 1. Search for images using ddgs.images()
+        # 2. Convert results to fastcore's List type
+        # 3. Extract just the image URLs
+        return L(ddgs.images(term, max_results=max_images)).itemgot('image')
+```
+
+Let's start by searching for a car photo and seeing what kind of result we get. We'll start by getting URLs from a search:
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T07:41:25.672918Z', iopub.execute_input: '2024-10-23T07:41:25.674118Z', iopub.status.idle: '2024-10-23T07:41:26.456082Z', shell.execute_reply.started: '2024-10-23T07:41:25.674065Z', shell.execute_reply: '2024-10-23T07:41:26.454904Z'}
+# get images urls, in this case just 1 url
+urls =  search_images('car photos',max_images=1)
+urls[0]
+```
+
+..and then download a URL and take a look at it:Now let's do the same with "bicycle " and "electric scooter":
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T07:41:29.882722Z', iopub.execute_input: '2024-10-23T07:41:29.883251Z', iopub.status.idle: '2024-10-23T07:41:38.661797Z', shell.execute_reply.started: '2024-10-23T07:41:29.883202Z', shell.execute_reply: '2024-10-23T07:41:38.660264Z'}
+from fastdownload import download_url
+dest = 'car.jpg'
+download_url(urls[0], dest, show_progress=False)
+
+from fastai.vision.all import *
+im = Image.open(dest)
+im.to_thumb(256,256)
+```
+
+Now let's do the same with "bicycle":
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T07:41:42.015777Z', iopub.execute_input: '2024-10-23T07:41:42.016219Z', iopub.status.idle: '2024-10-23T07:41:46.010197Z', shell.execute_reply.started: '2024-10-23T07:41:42.016174Z', shell.execute_reply: '2024-10-23T07:41:46.008767Z'}
+download_url(search_images('bicycle photos', max_images=1)[0], 'bicycle.jpg', show_progress=False)
+Image.open('bicycle.jpg').to_thumb(256,256)
+```
+
+The same with electric scooters
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T07:41:46.021330Z', iopub.execute_input: '2024-10-23T07:41:46.022415Z', iopub.status.idle: '2024-10-23T07:41:46.829986Z', shell.execute_reply.started: '2024-10-23T07:41:46.022366Z', shell.execute_reply: '2024-10-23T07:41:46.828642Z'}
+download_url(search_images('electric scooter photos', max_images=1)[0], 'scooter.jpg', show_progress=False)
+Image.open('scooter.jpg').to_thumb(256,256)
+```
+
+Our searches seem to be giving reasonable results.  Let's grab a few examples of each of "car", "bicycle" and "electric scooter" photos and save each group of photos to a different folder. We will search for day and night photos to grab a range of lighting conditions.
+
+```{python}
+#| trusted: true
+#| warning: false
+#| output: true
+#| execution: {iopub.status.busy: '2024-10-23T07:41:51.130669Z', iopub.execute_input: '2024-10-23T07:41:51.131104Z', iopub.status.idle: '2024-10-23T07:44:30.471339Z', shell.execute_reply.started: '2024-10-23T07:41:51.131064Z', shell.execute_reply: '2024-10-23T07:44:30.469452Z'}
+searches = 'car','bicycle','electric scooter'
+path = Path('car_bicycle_or_scooter')
+from time import sleep
+
+for o in searches:
+    # destination, create a directory if it doesnt exist, then download images for the o term
+    # resize the images 
+    dest = path/o # car_bicycle_or_scooter/car 
+    dest.mkdir(exist_ok=True, parents=True)
+    download_images(dest, urls=search_images(f'{o} photo'))
+    sleep(10)  # Pause between searches to avoid over-loading server
+    download_images(dest, urls=search_images(f'{o} sun photo'))
+    sleep(10)
+    download_images(dest, urls=search_images(f'{o} shade photo'))
+    sleep(10)
+    resize_images(path/o, max_size=400, dest=path/o)     
+```
+
+Folders structure after executing the code above:
+
+![](car_bicycle_or_scooter.png)
+
+# Step 2: train our model
+
+Some photos might not download correctly which could cause our model training to fail, so we'll remove them:
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T07:44:31.231100Z', iopub.execute_input: '2024-10-23T07:44:31.231518Z', iopub.status.idle: '2024-10-23T07:44:31.881290Z', shell.execute_reply.started: '2024-10-23T07:44:31.231476Z', shell.execute_reply: '2024-10-23T07:44:31.879831Z'}
+failed = verify_images(get_image_files(path))
+failed.map(Path.unlink)
+len(failed)
+```
+
+Understanding DataLoaders
+To train a model, we'll need DataLoaders, which is an object that contains:
+
+A training set (the images used to create the model)
+A validation set (the images used to check the accuracy of a model)
+
+What goes into the DataLoaders object?
+Out of hundreds of projects, what are all the things that change from project to project to get the data in the right shape? We can split it down into these components:
+
+1. Input and Output Types
+    * Input: Images
+    * Output: Categories (car, bicycle, electric scooter)
+2. Getting Items (get_items)
+    * Gets all image files from the specified path
+    * Runs the get_image_files function
+    * Returns a list of all image files in a path
+    * Looks through directories recursively
+3. Data Splitting (splitter)
+    * Splits the data into training and validation sets randomly
+    * Uses 20% of the data for the validation set
+4. Labeling (get_y=parent_label)
+    * Uses the parent folder name as the category label
+    * Example:
+
+car_bicycle_or_scooter/car/image1.jpg → label is "car"
+car_bicycle_or_scooter/bicycle/image2.jpg → label is "bicycle"
+
+
+5. Image Preprocessing
+    * Before training, resize each image to 192x192 pixels
+    * Uses "squish" method (as opposed to cropping)
+    * 'squish' method maintains aspect ratio
+6. DataLoader Creation
+    * dataloaders(path, bs=32)
+    * Creates train and validation dataloaders
+    * bs=32 means batch size of 32 images
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T08:20:52.582015Z', iopub.execute_input: '2024-10-23T08:20:52.582456Z', iopub.status.idle: '2024-10-23T08:20:53.738024Z', shell.execute_reply.started: '2024-10-23T08:20:52.582414Z', shell.execute_reply: '2024-10-23T08:20:53.736864Z'}
+dls = DataBlock(
+    blocks=(ImageBlock, CategoryBlock), 
+    get_items=get_image_files, 
+    splitter=RandomSplitter(valid_pct=0.2, seed=42),
+    get_y=parent_label,
+    # car_bicycle_or_scooter/car/image1.jpg → label is "car"
+    # car_bicycle_or_scooter/bicycle/image2.jpg → label is "bicycle"
+    item_tfms=[Resize(192, method='squish')]
+).dataloaders(path, bs=32) 
+
+dls.show_batch(max_n=6) # shows 6 images from a batch, displays both images and their labels
+```
+
+Now we're ready to train our model. The fastest widely used computer vision model is resnet18. You can train this in a few minutes,even on a CPU! (On a GPU, it generally takes under 10 seconds...)fastai comes with a helpful fine_tune() method which automatically uses best practices for fine tuning a pre-trained model, sowe'll use that.
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T08:30:11.298910Z', iopub.execute_input: '2024-10-23T08:30:11.299386Z', iopub.status.idle: '2024-10-23T08:31:54.838394Z', shell.execute_reply.started: '2024-10-23T08:30:11.299329Z', shell.execute_reply: '2024-10-23T08:31:54.837078Z'}
+# Create a vison learner using the DataLoaders we created above, resNet18 pre-trained model, and a metrics to measure the error rate.
+learn = vision_learner(dls, resnet18, metrics=error_rate)
+learn.fine_tune(3)
+```
+
+
+# Step 3: Use our model
+
+Let's see what the model thinks about the car we downloaded at the start:
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T08:57:05.828522Z', iopub.execute_input: '2024-10-23T08:57:05.829584Z', iopub.status.idle: '2024-10-23T08:57:05.836230Z', shell.execute_reply.started: '2024-10-23T08:57:05.829531Z', shell.execute_reply: '2024-10-23T08:57:05.834838Z'}
+print("Model classes:", learn.dls.vocab)
+```
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T08:57:16.507673Z', iopub.execute_input: '2024-10-23T08:57:16.508143Z', iopub.status.idle: '2024-10-23T08:57:16.948108Z', shell.execute_reply.started: '2024-10-23T08:57:16.508102Z', shell.execute_reply: '2024-10-23T08:57:16.947076Z'}
+is_car,_,probs = learn.predict(PILImage.create('car.jpg'))
+print(f"This is a: {is_car}.")
+print(f"Probability it's a car: {probs[1]:.4f}")
+```
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T09:00:24.594444Z', iopub.execute_input: '2024-10-23T09:00:24.594966Z', iopub.status.idle: '2024-10-23T09:00:25.650688Z', shell.execute_reply.started: '2024-10-23T09:00:24.594925Z', shell.execute_reply: '2024-10-23T09:00:25.649551Z'}
+is_bicycle,_,probs = learn.predict(PILImage.create('bicycle.jpg'))
+print(f"This is a: {is_bicycle}.")
+print(f"Probability it's a bicycle: {probs[0]:.4f}")
+```
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T09:01:03.859407Z', iopub.execute_input: '2024-10-23T09:01:03.859862Z', iopub.status.idle: '2024-10-23T09:01:04.041246Z', shell.execute_reply.started: '2024-10-23T09:01:03.859822Z', shell.execute_reply: '2024-10-23T09:01:04.039441Z'}
+is_scooter,_,probs = learn.predict(PILImage.create('scooter.jpg'))
+print(f"This is a: {is_scooter}.")
+print(f"Probability it's a scooter: {probs[2]:.4f}")
+```
+
+Checking the probability of car image being classified as a bicycle.
+
+```{python}
+#| trusted: true
+#| execution: {iopub.status.busy: '2024-10-23T09:02:07.437820Z', iopub.execute_input: '2024-10-23T09:02:07.438291Z', iopub.status.idle: '2024-10-23T09:02:07.848570Z', shell.execute_reply.started: '2024-10-23T09:02:07.438249Z', shell.execute_reply: '2024-10-23T09:02:07.847212Z'}
+is_car,_,probs = learn.predict(PILImage.create('car.jpg'))
+print(f"This is a: {is_car}.")
+print(f"Probability it's a bicycle: {probs[0]:.4f}")
+```
+
+# Further/future improvements
+
+Data cleaning - manually removing unclear photos. 
+Data augmentation
+Using a different pre-trained model 
+Different learning rate
+Use more data?
+ 
+To run the code yourself, check this kaggle notebook, where I've fine-tuned the model a 2nd time,  then I've used resnet34.
