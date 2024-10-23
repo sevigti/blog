@@ -1,1 +1,30 @@
 /* css styles */
+/* More aggressive size reduction */
+/* Target the title banner div */
+.quarto-title-banner {
+    padding-top: 0.5rem !important;     /* Reduced from 1rem */
+    padding-bottom: 0.5rem !important;   /* Reduced from 1rem */
+    margin-bottom: 0.5rem !important;    /* Reduced from 1rem */
+}
+
+/* Make the title text smaller */
+.quarto-title-banner .title {
+    font-size: 1.5rem !important;        /* Reduced from 1.8rem */
+    margin-bottom: 0.3rem !important;    /* Reduced from 0.5rem */
+}
+
+/* Adjust the subtitle/description if needed */
+.quarto-title-banner .subtitle {
+    font-size: 0.9rem !important;        /* Reduced from 1rem */
+    margin-top: 0.2rem !important;       /* Reduced from 0.3rem */
+}
+
+/* Make category tags more compact */
+.quarto-title-banner .quarto-categories {
+    margin-top: 0.3rem !important;       /* Reduced from 0.5rem */
+}
+
+.quarto-title-banner .quarto-categories .listing-category {
+    padding: 0.1rem 0.3rem !important;   /* Reduced from 0.2rem 0.4rem */
+    font-size: 0.7rem !important;        /* Reduced from 0.8rem */
+}

@@ -1,6 +1,10 @@
 project:
   type: website
-
+  execute-dir: project
+  render:
+    - "*.qmd"
+execute:
+  freeze: true      # Freeze all computations
 website:
   title: "blog"
   navbar:
@@ -14,8 +18,11 @@ website:
         href: https://x.com/elvis_visi23
 format:
   html:
-    theme: cosmo
+    theme:
+      light: flatly
+      dark: darkly
     css: styles.css
-
-
-
+    page-layout: full
+    fontsize: 1.1em
+    linestretch: 1.7
+    link-external-newwindow: true

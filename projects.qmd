@@ -2,14 +2,10 @@
 title: "Projects"
 ---
 
-## [Tic tac toe](https://elvis-visi.github.io/Tic-Tac-Toe-/)
+## [Anki](https://github.com/sevigti/)
 
-[![Tic tac toe](images/tictactoe.png)](https://elvis-visi.github.io/Tic-Tac-Toe-/)
+[![Tic tac toe](images/anki.jpg)](https://github.com/sevigti/)
 
-A classic Tic Tac Toe game developed using JavaScript, HTML, and CSS.
+To be started soon.
 
-## [Another Project](https://your-another-project-link.com)
 
-[![Another Project](images/tictactoe.png)](https://your-another-project-link.com)
-
-Brief description of another project.

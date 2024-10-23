@@ -2,12 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="visi">
+<meta name="dcterms.date" content="2024-10-23">
+<meta name="description" content="Build an image recognizer">
 
-<title>01 Intro to Machine Learning – blog</title>
+<title>blog - 01 Intro to Machine Learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -57,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,23 +72,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -94,86 +93,132 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
+      <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">blog</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects.html"> 
-<span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="../../projects.html" rel="" target="">
+ <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
-<span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/sevigti"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/sevigti" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://x.com/elvis_visi23"> <i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://x.com/elvis_visi23" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
+          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">01 Intro to Machine Learning</h1>
-                      </div>
+    <div class="quarto-title column-page-left">
+      <div class="quarto-title-block"><div><h1 class="title">01 Intro to Machine Learning</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+                  <div>
+        <div class="description">
+          Build an image recognizer
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">fastai_course</div>
+                <div class="quarto-category">chapter_1</div>
+                <div class="quarto-category">ML</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>visi </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 23, 2024</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#goal-build-an-image-recognizer" id="toc-goal-build-an-image-recognizer" class="nav-link active" data-scroll-target="#goal-build-an-image-recognizer">Goal: Build an image recognizer</a></li>
+  <li><a href="#step-2-train-our-model" id="toc-step-2-train-our-model" class="nav-link" data-scroll-target="#step-2-train-our-model">Step 2: train our model</a>
+  <ul class="collapse">
+  <li><a href="#understanding-dataloaders" id="toc-understanding-dataloaders" class="nav-link" data-scroll-target="#understanding-dataloaders">Understanding DataLoaders</a>
+  <ul class="collapse">
+  <li><a href="#what-goes-into-the-dataloaders-object" id="toc-what-goes-into-the-dataloaders-object" class="nav-link" data-scroll-target="#what-goes-into-the-dataloaders-object">What goes into the DataLoaders object?</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#model-training-analysis" id="toc-model-training-analysis" class="nav-link" data-scroll-target="#model-training-analysis">Model Training Analysis</a>
+  <ul class="collapse">
+  <li><a href="#understanding-error-rate-vs-loss" id="toc-understanding-error-rate-vs-loss" class="nav-link" data-scroll-target="#understanding-error-rate-vs-loss">Understanding Error Rate vs Loss</a>
+  <ul class="collapse">
+  <li><a href="#loss-improvement-analysis" id="toc-loss-improvement-analysis" class="nav-link" data-scroll-target="#loss-improvement-analysis">Loss Improvement Analysis</a></li>
+  </ul></li>
+  <li><a href="#training-evolution---better-internal-representation-of-features-example" id="toc-training-evolution---better-internal-representation-of-features-example" class="nav-link" data-scroll-target="#training-evolution---better-internal-representation-of-features-example">Training Evolution - better internal representation of features example</a></li>
+  </ul></li>
+  <li><a href="#step-3-use-our-model" id="toc-step-3-use-our-model" class="nav-link" data-scroll-target="#step-3-use-our-model">Step 3: Use our model</a></li>
+  <li><a href="#furtherfuture-improvements" id="toc-furtherfuture-improvements" class="nav-link" data-scroll-target="#furtherfuture-improvements">Further/future improvements</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
-
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
 
 
@@ -181,110 +226,114 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="thumbnail.jpg" class="img-fluid"></p>
 <section id="goal-build-an-image-recognizer" class="level1">
 <h1>Goal: Build an image recognizer</h1>
-<div id="cdb89bb4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span> pip install duckduckgo<span class="op">-</span>search</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="faa92db8" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:21.485492Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:21.484926Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:21.494577Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:21.492500Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:21.485436Z&quot;}" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> duckduckgo_search <span class="im">import</span> DDGS</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> search_images(term, max_images<span class="op">=</span><span class="dv">30</span>):</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Search for images using DuckDuckGo's search engine</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - term: search term/query (e.g., "cars", "bikes")</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - max_images: maximum number of images to return (default 30)</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">    - List of image URLs</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Searching for '</span><span class="sc">{</span>term<span class="sc">}</span><span class="ss">'"</span>)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> DDGS() <span class="im">as</span> ddgs:  <span class="co"># Create a DuckDuckGo search session</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Process:</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Search for images using ddgs.images()</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Convert results to fastcore's List type</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Extract just the image URLs</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> L(ddgs.images(term, max_results<span class="op">=</span>max_images)).itemgot(<span class="st">'image'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Function to search images using DuckDuckGo’s search engine</p>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:21.485492Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:21.484926Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:21.494577Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:21.492500Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:21.485436Z&quot;}" data-execution_count="2">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> duckduckgo_search <span class="im">import</span> DDGS</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> search_images(term, max_images<span class="op">=</span><span class="dv">30</span>):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Search for images using DuckDuckGo's search engine</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - term: search term/query (e.g., "cars", "bikes")</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - max_images: maximum number of images to return (default 30)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    - List of image URLs</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Searching for '</span><span class="sc">{</span>term<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> DDGS() <span class="im">as</span> ddgs:  <span class="co"># Create a DuckDuckGo search session</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Process:</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Search for images using ddgs.images()</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Convert results to fastcore's List type</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Extract just the image URLs</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> L(ddgs.images(term, max_results<span class="op">=</span>max_images)).itemgot(<span class="st">'image'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Let’s start by searching for a car photo and seeing what kind of result we get. We’ll start by getting URLs from a search:</p>
-<div id="7b430b6d" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:25.674118Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:25.672918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:26.456082Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:26.454904Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:25.674065Z&quot;}" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get images urls, in this case just 1 url</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>urls <span class="op">=</span>  search_images(<span class="st">'car photos'</span>,max_images<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>urls[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:25.674118Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:25.672918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:26.456082Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:26.454904Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:25.674065Z&quot;}" data-execution_count="3">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get images urls, in this case just 1 url</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>urls <span class="op">=</span>  search_images(<span class="st">'car photos'</span>,max_images<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>urls[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Searching for 'car photos'</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>'https://wallup.net/wp-content/uploads/2017/11/23/533023-Lamborghini-car-car_show-photography-black_cars-luxury_cars.jpg'</code></pre>
+<pre><code>'https://images.pexels.com/photos/241316/pexels-photo-241316.jpeg?cs=srgb&amp;dl=alloy-asphalt-auto-241316.jpg&amp;fm=jpg'</code></pre>
 </div>
 </div>
-<p>..and then download a URL and take a look at it:Now let’s do the same with “bicycle” and “electric scooter”:</p>
-<div id="7f28ccde" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:29.883251Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:29.882722Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:38.661797Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:38.660264Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:29.883202Z&quot;}" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastdownload <span class="im">import</span> download_url</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dest <span class="op">=</span> <span class="st">'car.jpg'</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>download_url(urls[<span class="dv">0</span>], dest, show_progress<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> Image.<span class="bu">open</span>(dest)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>im.to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then download a URL and take a look at it:</p>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:29.883251Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:29.882722Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:38.661797Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:38.660264Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:29.883202Z&quot;}" data-execution_count="4">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastdownload <span class="im">import</span> download_url</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dest <span class="op">=</span> <span class="st">'car.jpg'</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>download_url(urls[<span class="dv">0</span>], dest, show_progress<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> Image.<span class="bu">open</span>(dest)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>im.to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Now let’s do the same with “bicycle”:</p>
-<div id="61bc6f46" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:42.016219Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:42.015777Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:46.010197Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:46.008767Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:42.016174Z&quot;}" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>download_url(search_images(<span class="st">'bicycle photos'</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">'bicycle.jpg'</span>, show_progress<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Image.<span class="bu">open</span>(<span class="st">'bicycle.jpg'</span>).to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:42.016219Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:42.015777Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:46.010197Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:46.008767Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:42.016174Z&quot;}" data-execution_count="5">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>download_url(search_images(<span class="st">'bicycle photos'</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">'bicycle.jpg'</span>, show_progress<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Image.<span class="bu">open</span>(<span class="st">'bicycle.jpg'</span>).to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Searching for 'bicycle photos'</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>The same with electric scooters</p>
-<div id="d8613cfc" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:46.022415Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:46.021330Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:46.829986Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:46.828642Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:46.022366Z&quot;}" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>download_url(search_images(<span class="st">'electric scooter photos'</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">'scooter.jpg'</span>, show_progress<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Image.<span class="bu">open</span>(<span class="st">'scooter.jpg'</span>).to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:46.022415Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:46.021330Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:46.829986Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:46.828642Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:46.022366Z&quot;}" data-execution_count="6">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>download_url(search_images(<span class="st">'electric scooter'</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">'scooter.jpg'</span>, show_progress<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Image.<span class="bu">open</span>(<span class="st">'scooter.jpg'</span>).to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Searching for 'electric scooter photos'</code></pre>
+<pre><code>Searching for 'electric scooter'</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
-</figure>
+<p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<p>Our searches seem to be giving reasonable results. Let’s grab a few examples of each of “car”, “bicycle” and “electric scooter” photos and save each group of photos to a different folder. We will search for day and night photos to grab a range of lighting conditions.</p>
-<div id="03090526" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:51.131104Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:51.130669Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:44:30.471339Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:44:30.469452Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:51.131064Z&quot;}" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>searches <span class="op">=</span> <span class="st">'car'</span>,<span class="st">'bicycle'</span>,<span class="st">'electric scooter'</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'car_bicycle_or_scooter'</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> o <span class="kw">in</span> searches:</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># destination, create a directory if it doesnt exist, then download images for the o term</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># resize the images </span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    dest <span class="op">=</span> path<span class="op">/</span>o <span class="co"># car_bicycle_or_scooter/car </span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    dest.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>, parents<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> photo'</span>))</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)  <span class="co"># Pause between searches to avoid over-loading server</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> sun photo'</span>))</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> shade photo'</span>))</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    resize_images(path<span class="op">/</span>o, max_size<span class="op">=</span><span class="dv">400</span>, dest<span class="op">=</span>path<span class="op">/</span>o)     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Our searches seem to be giving reasonable results. Let’s grab a few examples of each of “car”, “bicycle” and “electric scooter” photos and save each group of photos to a different folder. We will search for sun and shade photos to grab a range of lighting conditions.</p>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:51.131104Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:51.130669Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:44:30.471339Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:44:30.469452Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:51.131064Z&quot;}" data-execution_count="7">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>searches <span class="op">=</span> <span class="st">'car'</span>,<span class="st">'bicycle'</span>,<span class="st">'electric scooter'</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'car_bicycle_or_scooter'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> o <span class="kw">in</span> searches:</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># destination, create a directory if it doesnt exist, then download images for the o term</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># resize the images </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    dest <span class="op">=</span> path<span class="op">/</span>o <span class="co"># car_bicycle_or_scooter/car </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    dest.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>, parents<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> photo'</span>))</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)  <span class="co"># Pause between searches to avoid over-loading server</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> sun photo'</span>))</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> shade photo'</span>))</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    resize_images(path<span class="op">/</span>o, max_size<span class="op">=</span><span class="dv">400</span>, dest<span class="op">=</span>path<span class="op">/</span>o)     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Searching for 'car photo'
 Searching for 'car sun photo'
@@ -303,81 +352,88 @@ Searching for 'electric scooter shade photo'</code></pre>
 <section id="step-2-train-our-model" class="level1">
 <h1>Step 2: train our model</h1>
 <p>Some photos might not download correctly which could cause our model training to fail, so we’ll remove them:</p>
-<div id="72deeefb" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:44:31.231518Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:44:31.231100Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:44:31.881290Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:44:31.879831Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:44:31.231476Z&quot;}" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>failed <span class="op">=</span> verify_images(get_image_files(path))</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>failed.<span class="bu">map</span>(Path.unlink)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(failed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:44:31.231518Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:44:31.231100Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:44:31.881290Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:44:31.879831Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:44:31.231476Z&quot;}" data-execution_count="8">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>failed <span class="op">=</span> verify_images(get_image_files(path))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>failed.<span class="bu">map</span>(Path.unlink)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(failed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>10</code></pre>
+<pre><code>18</code></pre>
 </div>
 </div>
-<p>Understanding DataLoaders To train a model, we’ll need DataLoaders, which is an object that contains:</p>
+<section id="understanding-dataloaders" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-dataloaders">Understanding DataLoaders</h2>
+<p>To train a model, we’ll need DataLoaders, which is an object that contains:</p>
 <p>A training set (the images used to create the model) A validation set (the images used to check the accuracy of a model)</p>
-<p>What goes into the DataLoaders object? Out of hundreds of projects, what are all the things that change from project to project to get the data in the right shape? We can split it down into these components:</p>
+<section id="what-goes-into-the-dataloaders-object" class="level3">
+<h3 class="anchored" data-anchor-id="what-goes-into-the-dataloaders-object">What goes into the DataLoaders object?</h3>
+<p>Out of hundreds of projects, what are all the things that change from project to project to get the data in the right shape? We can split it down into these components:</p>
 <ol type="1">
-<li>Input and Output Types
+<li><p>Input and Output Types</p>
 <ul>
 <li>Input: Images</li>
 <li>Output: Categories (car, bicycle, electric scooter)</li>
 </ul></li>
-<li>Getting Items (get_items)
+<li><p>Getting Items (get_items)</p>
 <ul>
 <li>Gets all image files from the specified path</li>
 <li>Runs the get_image_files function</li>
 <li>Returns a list of all image files in a path</li>
 <li>Looks through directories recursively</li>
 </ul></li>
-<li>Data Splitting (splitter)
+<li><p>Data Splitting (splitter)</p>
 <ul>
 <li>Splits the data into training and validation sets randomly</li>
 <li>Uses 20% of the data for the validation set</li>
 </ul></li>
-<li>Labeling (get_y=parent_label)
+<li><p>Labeling (get_y=parent_label)</p>
 <ul>
 <li>Uses the parent folder name as the category label</li>
 <li>Example:</li>
-</ul></li>
-</ol>
-<p>car_bicycle_or_scooter/car/image1.jpg → label is “car” car_bicycle_or_scooter/bicycle/image2.jpg → label is “bicycle”</p>
-<ol start="5" type="1">
-<li>Image Preprocessing
+</ul>
+<p>car_bicycle_or_scooter/car/image1.jpg → label is “car” car_bicycle_or_scooter/bicycle/image2.jpg → label is “bicycle”</p></li>
+<li><p>Image Preprocessing</p>
 <ul>
 <li>Before training, resize each image to 192x192 pixels</li>
 <li>Uses “squish” method (as opposed to cropping)</li>
 <li>‘squish’ method maintains aspect ratio</li>
 </ul></li>
-<li>DataLoader Creation
+<li><p>DataLoader Creation</p>
 <ul>
 <li>dataloaders(path, bs=32)</li>
 <li>Creates train and validation dataloaders</li>
 <li>bs=32 means batch size of 32 images</li>
 </ul></li>
 </ol>
-<div id="12c5b98d" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:20:52.582456Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:20:52.582015Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:20:53.738024Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:20:53.736864Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:20:52.582414Z&quot;}" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataBlock(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    get_items<span class="op">=</span>get_image_files, </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>, seed<span class="op">=</span><span class="dv">42</span>),</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    get_y<span class="op">=</span>parent_label,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># car_bicycle_or_scooter/car/image1.jpg → label is "car"</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># car_bicycle_or_scooter/bicycle/image2.jpg → label is "bicycle"</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>[Resize(<span class="dv">192</span>, method<span class="op">=</span><span class="st">'squish'</span>)]</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>).dataloaders(path, bs<span class="op">=</span><span class="dv">32</span>) </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">6</span>) <span class="co"># shows 6 images from a batch, displays both images and their labels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:20:52.582456Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:20:52.582015Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:20:53.738024Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:20:53.736864Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:20:52.582414Z&quot;}" data-execution_count="9">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataBlock(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    get_items<span class="op">=</span>get_image_files, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>, seed<span class="op">=</span><span class="dv">42</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    get_y<span class="op">=</span>parent_label,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># car_bicycle_or_scooter/car/image1.jpg → label is "car"</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># car_bicycle_or_scooter/bicycle/image2.jpg → label is "bicycle"</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>[Resize(<span class="dv">192</span>, method<span class="op">=</span><span class="st">'squish'</span>)]</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>).dataloaders(path, bs<span class="op">=</span><span class="dv">32</span>) </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">6</span>) <span class="co"># shows 6 images from a batch, displays both images and their labels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-10-output-1.png" width="689" height="478" class="figure-img"></p>
-</figure>
-</div>
+<p><img src="index_files/figure-html/cell-10-output-1.png" width="689" height="478"></p>
 </div>
 </div>
 <p>Now we’re ready to train our model. The fastest widely used computer vision model is resnet18. You can train this in a few minutes,even on a CPU! (On a GPU, it generally takes under 10 seconds…)fastai comes with a helpful fine_tune() method which automatically uses best practices for fine tuning a pre-trained model, sowe’ll use that.</p>
-<div id="936e0638" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:30:11.299386Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:30:11.298910Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:31:54.838394Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:31:54.837078Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:30:11.299329Z&quot;}" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a vison learner using the DataLoaders we created above, resNet18 pre-trained model, and a metrics to measure the error rate.</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, resnet18, metrics<span class="op">=</span>error_rate)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:30:11.299386Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:30:11.298910Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:31:54.838394Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:31:54.837078Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:30:11.299329Z&quot;}" data-execution_count="10">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a vison learner using the DataLoaders we created above, resNet18 pre-trained model, and a metrics to measure the error rate.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, resnet18, metrics<span class="op">=</span>error_rate)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -397,7 +453,7 @@ Searching for 'electric scooter shade photo'</code></pre>
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -410,10 +466,10 @@ Searching for 'electric scooter shade photo'</code></pre>
 <tbody>
 <tr class="odd">
 <td>0</td>
-<td>0.727847</td>
-<td>0.032132</td>
-<td>0.010676</td>
-<td>00:01</td>
+<td>0.414254</td>
+<td>0.011914</td>
+<td>0.005825</td>
+<td>00:05</td>
 </tr>
 </tbody>
 </table>
@@ -437,7 +493,7 @@ Searching for 'electric scooter shade photo'</code></pre>
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -450,43 +506,88 @@ Searching for 'electric scooter shade photo'</code></pre>
 <tbody>
 <tr class="odd">
 <td>0</td>
-<td>0.083078</td>
-<td>0.038483</td>
-<td>0.003559</td>
-<td>00:01</td>
+<td>0.034290</td>
+<td>0.015446</td>
+<td>0.005825</td>
+<td>00:05</td>
 </tr>
 <tr class="even">
 <td>1</td>
-<td>0.046047</td>
-<td>0.027227</td>
-<td>0.003559</td>
-<td>00:01</td>
+<td>0.035198</td>
+<td>0.003703</td>
+<td>0.001942</td>
+<td>00:05</td>
 </tr>
 <tr class="odd">
 <td>2</td>
-<td>0.023140</td>
-<td>0.021595</td>
-<td>0.003559</td>
-<td>00:01</td>
+<td>0.013413</td>
+<td>0.006764</td>
+<td>0.001942</td>
+<td>00:05</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </section>
+</section>
+</section>
+<section id="model-training-analysis" class="level1">
+<h1>Model Training Analysis</h1>
+<p>Note: On different code executions we get different results, below we state what is most likely to happen.</p>
+<ul>
+<li>First row shows initial training with high train/valid loss and error rate, indicating the model is just starting to learn.<br>
+</li>
+<li>Generally both losses and the error rate decrease as we train more epochs. Training for way too many epochs can cause overfitting, thus the model will perform worse.</li>
+</ul>
+<section id="understanding-error-rate-vs-loss" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-error-rate-vs-loss">Understanding Error Rate vs Loss</h2>
+<ul>
+<li><p>Error rate is binary (right or wrong prediction)</p></li>
+<li><p>Loss measures the model’s confidence/uncertainty</p>
+<p>Example:<br>
+Prediction 1: Car (60% confident) ✓ Correct</p>
+<p>Prediction 2: Car (95% confident) ✓ Still Correct</p></li>
+<li><p>Both have same error rate (0% - both correct)</p></li>
+<li><p>But second prediction has lower loss (more confident)</p></li>
+</ul>
+<section id="loss-improvement-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="loss-improvement-analysis">Loss Improvement Analysis</h3>
+<ul>
+<li>Model is getting more confident in its correct predictions</li>
+<li>Less uncertainty in its decisions</li>
+<li>Better internal representations of features</li>
+</ul>
+</section>
+</section>
+<section id="training-evolution---better-internal-representation-of-features-example" class="level2">
+<h2 class="anchored" data-anchor-id="training-evolution---better-internal-representation-of-features-example">Training Evolution - better internal representation of features example</h2>
+<p>Early training:<br>
+“This is a car because it has wheels” (less confident, higher loss)</p>
+<p>Later training:<br>
+“This is a car because it has wheels, specific body shape, headlights, and typical car proportions” (more confident, lower loss)</p>
+<p><strong>Changes in loss don’t affect actual right/wrong decisions (error rate)</strong></p>
+</section>
+</section>
 <section id="step-3-use-our-model" class="level1">
 <h1>Step 3: Use our model</h1>
 <p>Let’s see what the model thinks about the car we downloaded at the start:</p>
-<div id="7c52d104" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:57:05.829584Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:57:05.828522Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:57:05.836230Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:57:05.834838Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:57:05.829531Z&quot;}" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Model classes:"</span>, learn.dls.vocab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:57:05.829584Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:57:05.828522Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:57:05.836230Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:57:05.834838Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:57:05.829531Z&quot;}" data-execution_count="11">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Model classes:"</span>, learn.dls.vocab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model classes: ['bicycle', 'car', 'electric scooter']</code></pre>
 </div>
 </div>
-<div id="82850166" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:57:16.508143Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:57:16.507673Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:57:16.948108Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:57:16.947076Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:57:16.508102Z&quot;}" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>is_car,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'car.jpg'</span>))</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_car<span class="sc">}</span><span class="ss">."</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a car: </span><span class="sc">{</span>probs[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:57:16.508143Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:57:16.507673Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:57:16.948108Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:57:16.947076Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:57:16.508102Z&quot;}" data-execution_count="12">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>is_car,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'car.jpg'</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_car<span class="sc">}</span><span class="ss">."</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a car: </span><span class="sc">{</span>probs[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -513,10 +614,13 @@ Searching for 'electric scooter shade photo'</code></pre>
 Probability it's a car: 1.0000</code></pre>
 </div>
 </div>
-<div id="4726b4d9" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:00:24.594966Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:00:24.594444Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:00:25.650688Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:00:25.649551Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:00:24.594925Z&quot;}" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>is_bicycle,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'bicycle.jpg'</span>))</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_bicycle<span class="sc">}</span><span class="ss">."</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a bicycle: </span><span class="sc">{</span>probs[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:00:24.594966Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:00:24.594444Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:00:25.650688Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:00:25.649551Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:00:24.594925Z&quot;}" data-execution_count="13">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>is_bicycle,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'bicycle.jpg'</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_bicycle<span class="sc">}</span><span class="ss">."</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a bicycle: </span><span class="sc">{</span>probs[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -543,10 +647,13 @@ Probability it's a car: 1.0000</code></pre>
 Probability it's a bicycle: 1.0000</code></pre>
 </div>
 </div>
-<div id="c69a3406" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:01:03.859862Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:01:03.859407Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:01:04.041246Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:01:04.039441Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:01:03.859822Z&quot;}" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>is_scooter,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'scooter.jpg'</span>))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_scooter<span class="sc">}</span><span class="ss">."</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a scooter: </span><span class="sc">{</span>probs[<span class="dv">2</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:01:03.859862Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:01:03.859407Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:01:04.041246Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:01:04.039441Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:01:03.859822Z&quot;}" data-execution_count="14">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>is_scooter,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'scooter.jpg'</span>))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_scooter<span class="sc">}</span><span class="ss">."</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a scooter: </span><span class="sc">{</span>probs[<span class="dv">2</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -570,14 +677,17 @@ Probability it's a bicycle: 1.0000</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>This is a: electric scooter.
-Probability it's a scooter: 0.9997</code></pre>
+Probability it's a scooter: 1.0000</code></pre>
 </div>
 </div>
 <p>Checking the probability of car image being classified as a bicycle.</p>
-<div id="6cd09f9c" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:02:07.438291Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:02:07.437820Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:02:07.848570Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:02:07.847212Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:02:07.438249Z&quot;}" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>is_car,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'car.jpg'</span>))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_car<span class="sc">}</span><span class="ss">."</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a bicycle: </span><span class="sc">{</span>probs[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:02:07.438291Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:02:07.437820Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:02:07.848570Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:02:07.847212Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:02:07.438249Z&quot;}" data-execution_count="15">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>is_car,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'car.jpg'</span>))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_car<span class="sc">}</span><span class="ss">."</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a bicycle: </span><span class="sc">{</span>probs[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -607,9 +717,17 @@ Probability it's a bicycle: 0.0000</code></pre>
 </section>
 <section id="furtherfuture-improvements" class="level1">
 <h1>Further/future improvements</h1>
-<p>Data cleaning - manually removing unclear photos. Data augmentation Using a different pre-trained model Different learning rate Use more data?</p>
-<p>To run the code yourself, check this kaggle notebook, where I’ve fine-tuned the model a 2nd time, then I’ve used resnet34.</p>
+<ul>
+<li>Data cleaning - Manually removing unclear photos</li>
+<li>Data augmentation</li>
+<li>Using a different pre-trained model</li>
+<li>Different learning rate</li>
+<li>Use more data</li>
+</ul>
+<p>To run the code yourself, check this <a href="https://www.kaggle.com/code/elvisvisi/01-own-model?scriptVersionId=202888569">kaggle notebook</a>, where I’ve fine-tuned the model a 2nd time, then I’ve used resnet34.</p>
 
+
+<!-- -->
 
 </section>
 
@@ -634,6 +752,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -649,7 +882,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -681,50 +925,62 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
     });
-    clipboardModal.on('success', onCopySuccess);
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
         }
       }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
     }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -734,17 +990,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -756,130 +1003,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -923,7 +1047,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -949,32 +1072,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1032,10 +1129,323 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/sevigti\.quarto\.pub\/visi");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb26" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> '01 Intro to Machine Learning'</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Build an image recognizer" # Optional - this will appear under the title</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "visi"</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2024-10-23"</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> </span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">    - fastai_course</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - chapter_1</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - ML</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="an">toc-title:</span><span class="co"> Contents # Custom title for the TOC</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="an">toc-location:</span><span class="co"> right</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show        # Code shown by default</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true       # Shows the code tools menu</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true        # Optional: adds "View source" link</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="co">    code-block-bg: true    # Optional: adds background to code blocks</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co">    code-block-border-left: "#31BAE9"  # Optional: adds colored border</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap    # Optional: wraps long code lines</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: hover       # Optional: shows copy button on hover</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="al">![](thumbnail.jpg)</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="fu"># Goal: Build an image recognizer</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="op">!</span> pip install duckduckgo<span class="op">-</span>search</span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>Function to search images using DuckDuckGo's search engine</span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T07:41:21.484926Z', iopub.execute_input: '2024-10-23T07:41:21.485492Z', iopub.status.idle: '2024-10-23T07:41:21.494577Z', shell.execute_reply.started: '2024-10-23T07:41:21.485436Z', shell.execute_reply: '2024-10-23T07:41:21.492500Z'}</span></span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> duckduckgo_search <span class="im">import</span> DDGS</span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> search_images(term, max_images<span class="op">=</span><span class="dv">30</span>):</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a><span class="co">    Search for images using DuckDuckGo's search engine</span></span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a><span class="co">    - term: search term/query (e.g., "cars", "bikes")</span></span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a><span class="co">    - max_images: maximum number of images to return (default 30)</span></span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a><span class="co">    - List of image URLs</span></span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Searching for '</span><span class="sc">{</span>term<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> DDGS() <span class="im">as</span> ddgs:  <span class="co"># Create a DuckDuckGo search session</span></span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Process:</span></span>
+<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Search for images using ddgs.images()</span></span>
+<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Convert results to fastcore's List type</span></span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Extract just the image URLs</span></span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> L(ddgs.images(term, max_results<span class="op">=</span>max_images)).itemgot(<span class="st">'image'</span>)</span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>Let's start by searching for a car photo and seeing what kind of result we get. We'll start by getting URLs from a search:</span>
+<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T07:41:25.672918Z', iopub.execute_input: '2024-10-23T07:41:25.674118Z', iopub.status.idle: '2024-10-23T07:41:26.456082Z', shell.execute_reply.started: '2024-10-23T07:41:25.674065Z', shell.execute_reply: '2024-10-23T07:41:26.454904Z'}</span></span>
+<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a><span class="co"># get images urls, in this case just 1 url</span></span>
+<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>urls <span class="op">=</span>  search_images(<span class="st">'car photos'</span>,max_images<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a>urls[<span class="dv">0</span>]</span>
+<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>Then download a URL and take a look at it:</span>
+<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T07:41:29.882722Z', iopub.execute_input: '2024-10-23T07:41:29.883251Z', iopub.status.idle: '2024-10-23T07:41:38.661797Z', shell.execute_reply.started: '2024-10-23T07:41:29.883202Z', shell.execute_reply: '2024-10-23T07:41:38.660264Z'}</span></span>
+<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastdownload <span class="im">import</span> download_url</span>
+<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a>dest <span class="op">=</span> <span class="st">'car.jpg'</span></span>
+<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>download_url(urls[<span class="dv">0</span>], dest, show_progress<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> Image.<span class="bu">open</span>(dest)</span>
+<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a>im.to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span>
+<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a>Now let's do the same with "bicycle":</span>
+<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T07:41:42.015777Z', iopub.execute_input: '2024-10-23T07:41:42.016219Z', iopub.status.idle: '2024-10-23T07:41:46.010197Z', shell.execute_reply.started: '2024-10-23T07:41:42.016174Z', shell.execute_reply: '2024-10-23T07:41:46.008767Z'}</span></span>
+<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a>download_url(search_images(<span class="st">'bicycle photos'</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">'bicycle.jpg'</span>, show_progress<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a>Image.<span class="bu">open</span>(<span class="st">'bicycle.jpg'</span>).to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span>
+<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a>The same with electric scooters</span>
+<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T07:41:46.021330Z', iopub.execute_input: '2024-10-23T07:41:46.022415Z', iopub.status.idle: '2024-10-23T07:41:46.829986Z', shell.execute_reply.started: '2024-10-23T07:41:46.022366Z', shell.execute_reply: '2024-10-23T07:41:46.828642Z'}</span></span>
+<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a>download_url(search_images(<span class="st">'electric scooter'</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">'scooter.jpg'</span>, show_progress<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a>Image.<span class="bu">open</span>(<span class="st">'scooter.jpg'</span>).to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span>
+<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a>Our searches seem to be giving reasonable results.  Let's grab a few examples of each of "car", "bicycle" and "electric scooter" photos and save each group of photos to a different folder. We will search for sun and shade photos to grab a range of lighting conditions.</span>
+<span id="cb26-122"><a href="#cb26-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-125"><a href="#cb26-125" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-126"><a href="#cb26-126" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-127"><a href="#cb26-127" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb26-128"><a href="#cb26-128" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
+<span id="cb26-129"><a href="#cb26-129" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T07:41:51.130669Z', iopub.execute_input: '2024-10-23T07:41:51.131104Z', iopub.status.idle: '2024-10-23T07:44:30.471339Z', shell.execute_reply.started: '2024-10-23T07:41:51.131064Z', shell.execute_reply: '2024-10-23T07:44:30.469452Z'}</span></span>
+<span id="cb26-130"><a href="#cb26-130" aria-hidden="true" tabindex="-1"></a>searches <span class="op">=</span> <span class="st">'car'</span>,<span class="st">'bicycle'</span>,<span class="st">'electric scooter'</span></span>
+<span id="cb26-131"><a href="#cb26-131" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'car_bicycle_or_scooter'</span>)</span>
+<span id="cb26-132"><a href="#cb26-132" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep</span>
+<span id="cb26-133"><a href="#cb26-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-134"><a href="#cb26-134" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> o <span class="kw">in</span> searches:</span>
+<span id="cb26-135"><a href="#cb26-135" aria-hidden="true" tabindex="-1"></a>    <span class="co"># destination, create a directory if it doesnt exist, then download images for the o term</span></span>
+<span id="cb26-136"><a href="#cb26-136" aria-hidden="true" tabindex="-1"></a>    <span class="co"># resize the images </span></span>
+<span id="cb26-137"><a href="#cb26-137" aria-hidden="true" tabindex="-1"></a>    dest <span class="op">=</span> path<span class="op">/</span>o <span class="co"># car_bicycle_or_scooter/car </span></span>
+<span id="cb26-138"><a href="#cb26-138" aria-hidden="true" tabindex="-1"></a>    dest.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>, parents<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-139"><a href="#cb26-139" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> photo'</span>))</span>
+<span id="cb26-140"><a href="#cb26-140" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)  <span class="co"># Pause between searches to avoid over-loading server</span></span>
+<span id="cb26-141"><a href="#cb26-141" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> sun photo'</span>))</span>
+<span id="cb26-142"><a href="#cb26-142" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)</span>
+<span id="cb26-143"><a href="#cb26-143" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> shade photo'</span>))</span>
+<span id="cb26-144"><a href="#cb26-144" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)</span>
+<span id="cb26-145"><a href="#cb26-145" aria-hidden="true" tabindex="-1"></a>    resize_images(path<span class="op">/</span>o, max_size<span class="op">=</span><span class="dv">400</span>, dest<span class="op">=</span>path<span class="op">/</span>o)     </span>
+<span id="cb26-146"><a href="#cb26-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-147"><a href="#cb26-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-148"><a href="#cb26-148" aria-hidden="true" tabindex="-1"></a>Folders structure after executing the code above:</span>
+<span id="cb26-149"><a href="#cb26-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-150"><a href="#cb26-150" aria-hidden="true" tabindex="-1"></a><span class="al">![](car_bicycle_or_scooter.png)</span></span>
+<span id="cb26-151"><a href="#cb26-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-152"><a href="#cb26-152" aria-hidden="true" tabindex="-1"></a><span class="fu"># Step 2: train our model</span></span>
+<span id="cb26-153"><a href="#cb26-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-154"><a href="#cb26-154" aria-hidden="true" tabindex="-1"></a>Some photos might not download correctly which could cause our model training to fail, so we'll remove them:</span>
+<span id="cb26-155"><a href="#cb26-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-158"><a href="#cb26-158" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-159"><a href="#cb26-159" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-160"><a href="#cb26-160" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T07:44:31.231100Z', iopub.execute_input: '2024-10-23T07:44:31.231518Z', iopub.status.idle: '2024-10-23T07:44:31.881290Z', shell.execute_reply.started: '2024-10-23T07:44:31.231476Z', shell.execute_reply: '2024-10-23T07:44:31.879831Z'}</span></span>
+<span id="cb26-161"><a href="#cb26-161" aria-hidden="true" tabindex="-1"></a>failed <span class="op">=</span> verify_images(get_image_files(path))</span>
+<span id="cb26-162"><a href="#cb26-162" aria-hidden="true" tabindex="-1"></a>failed.<span class="bu">map</span>(Path.unlink)</span>
+<span id="cb26-163"><a href="#cb26-163" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(failed)</span>
+<span id="cb26-164"><a href="#cb26-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-165"><a href="#cb26-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-166"><a href="#cb26-166" aria-hidden="true" tabindex="-1"></a><span class="fu">## Understanding DataLoaders  </span></span>
+<span id="cb26-167"><a href="#cb26-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-168"><a href="#cb26-168" aria-hidden="true" tabindex="-1"></a>To train a model, we'll need DataLoaders, which is an object that contains:</span>
+<span id="cb26-169"><a href="#cb26-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-170"><a href="#cb26-170" aria-hidden="true" tabindex="-1"></a>A training set (the images used to create the model)</span>
+<span id="cb26-171"><a href="#cb26-171" aria-hidden="true" tabindex="-1"></a>A validation set (the images used to check the accuracy of a model)</span>
+<span id="cb26-172"><a href="#cb26-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-173"><a href="#cb26-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### What goes into the DataLoaders object?</span></span>
+<span id="cb26-174"><a href="#cb26-174" aria-hidden="true" tabindex="-1"></a>Out of hundreds of projects, what are all the things that change from project to project to get the data in the right shape? We can split it down into these components:</span>
+<span id="cb26-175"><a href="#cb26-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-176"><a href="#cb26-176" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Input and Output Types</span>
+<span id="cb26-177"><a href="#cb26-177" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Input: Images</span>
+<span id="cb26-178"><a href="#cb26-178" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Output: Categories (car, bicycle, electric scooter)</span>
+<span id="cb26-179"><a href="#cb26-179" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Getting Items (get_items)</span>
+<span id="cb26-180"><a href="#cb26-180" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Gets all image files from the specified path</span>
+<span id="cb26-181"><a href="#cb26-181" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Runs the get_image_files function</span>
+<span id="cb26-182"><a href="#cb26-182" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Returns a list of all image files in a path</span>
+<span id="cb26-183"><a href="#cb26-183" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Looks through directories recursively</span>
+<span id="cb26-184"><a href="#cb26-184" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Data Splitting (splitter)</span>
+<span id="cb26-185"><a href="#cb26-185" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Splits the data into training and validation sets randomly</span>
+<span id="cb26-186"><a href="#cb26-186" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Uses 20% of the data for the validation set</span>
+<span id="cb26-187"><a href="#cb26-187" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Labeling (get_y=parent_label)</span>
+<span id="cb26-188"><a href="#cb26-188" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Uses the parent folder name as the category label</span>
+<span id="cb26-189"><a href="#cb26-189" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Example:</span>
+<span id="cb26-190"><a href="#cb26-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-191"><a href="#cb26-191" aria-hidden="true" tabindex="-1"></a>    car_bicycle_or_scooter/car/image1.jpg → label is "car"</span>
+<span id="cb26-192"><a href="#cb26-192" aria-hidden="true" tabindex="-1"></a>    car_bicycle_or_scooter/bicycle/image2.jpg → label is "bicycle"</span>
+<span id="cb26-193"><a href="#cb26-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-194"><a href="#cb26-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-195"><a href="#cb26-195" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Image Preprocessing</span>
+<span id="cb26-196"><a href="#cb26-196" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Before training, resize each image to 192x192 pixels</span>
+<span id="cb26-197"><a href="#cb26-197" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Uses "squish" method (as opposed to cropping)</span>
+<span id="cb26-198"><a href="#cb26-198" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>'squish' method maintains aspect ratio</span>
+<span id="cb26-199"><a href="#cb26-199" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>DataLoader Creation</span>
+<span id="cb26-200"><a href="#cb26-200" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>dataloaders(path, bs=32)</span>
+<span id="cb26-201"><a href="#cb26-201" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Creates train and validation dataloaders</span>
+<span id="cb26-202"><a href="#cb26-202" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>bs=32 means batch size of 32 images</span>
+<span id="cb26-203"><a href="#cb26-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-206"><a href="#cb26-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-207"><a href="#cb26-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-208"><a href="#cb26-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T08:20:52.582015Z', iopub.execute_input: '2024-10-23T08:20:52.582456Z', iopub.status.idle: '2024-10-23T08:20:53.738024Z', shell.execute_reply.started: '2024-10-23T08:20:52.582414Z', shell.execute_reply: '2024-10-23T08:20:53.736864Z'}</span></span>
+<span id="cb26-209"><a href="#cb26-209" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataBlock(</span>
+<span id="cb26-210"><a href="#cb26-210" aria-hidden="true" tabindex="-1"></a>    blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
+<span id="cb26-211"><a href="#cb26-211" aria-hidden="true" tabindex="-1"></a>    get_items<span class="op">=</span>get_image_files, </span>
+<span id="cb26-212"><a href="#cb26-212" aria-hidden="true" tabindex="-1"></a>    splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>, seed<span class="op">=</span><span class="dv">42</span>),</span>
+<span id="cb26-213"><a href="#cb26-213" aria-hidden="true" tabindex="-1"></a>    get_y<span class="op">=</span>parent_label,</span>
+<span id="cb26-214"><a href="#cb26-214" aria-hidden="true" tabindex="-1"></a>    <span class="co"># car_bicycle_or_scooter/car/image1.jpg → label is "car"</span></span>
+<span id="cb26-215"><a href="#cb26-215" aria-hidden="true" tabindex="-1"></a>    <span class="co"># car_bicycle_or_scooter/bicycle/image2.jpg → label is "bicycle"</span></span>
+<span id="cb26-216"><a href="#cb26-216" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>[Resize(<span class="dv">192</span>, method<span class="op">=</span><span class="st">'squish'</span>)]</span>
+<span id="cb26-217"><a href="#cb26-217" aria-hidden="true" tabindex="-1"></a>).dataloaders(path, bs<span class="op">=</span><span class="dv">32</span>) </span>
+<span id="cb26-218"><a href="#cb26-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-219"><a href="#cb26-219" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">6</span>) <span class="co"># shows 6 images from a batch, displays both images and their labels</span></span>
+<span id="cb26-220"><a href="#cb26-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-221"><a href="#cb26-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-222"><a href="#cb26-222" aria-hidden="true" tabindex="-1"></a>Now we're ready to train our model. The fastest widely used computer vision model is resnet18. You can train this in a few minutes,even on a CPU! (On a GPU, it generally takes under 10 seconds...)fastai comes with a helpful fine_tune() method which automatically uses best practices for fine tuning a pre-trained model, sowe'll use that.</span>
+<span id="cb26-223"><a href="#cb26-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-226"><a href="#cb26-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-227"><a href="#cb26-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-228"><a href="#cb26-228" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T08:30:11.298910Z', iopub.execute_input: '2024-10-23T08:30:11.299386Z', iopub.status.idle: '2024-10-23T08:31:54.838394Z', shell.execute_reply.started: '2024-10-23T08:30:11.299329Z', shell.execute_reply: '2024-10-23T08:31:54.837078Z'}</span></span>
+<span id="cb26-229"><a href="#cb26-229" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a vison learner using the DataLoaders we created above, resNet18 pre-trained model, and a metrics to measure the error rate.</span></span>
+<span id="cb26-230"><a href="#cb26-230" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, resnet18, metrics<span class="op">=</span>error_rate)</span>
+<span id="cb26-231"><a href="#cb26-231" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span>
+<span id="cb26-232"><a href="#cb26-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-233"><a href="#cb26-233" aria-hidden="true" tabindex="-1"></a><span class="fu"># Model Training Analysis  </span></span>
+<span id="cb26-234"><a href="#cb26-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-235"><a href="#cb26-235" aria-hidden="true" tabindex="-1"></a>Note: On different code executions we get different results, below we state what is most likely to happen.</span>
+<span id="cb26-236"><a href="#cb26-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-237"><a href="#cb26-237" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>First row shows initial training with high train/valid loss and error rate, indicating the model is just starting to learn.  </span>
+<span id="cb26-238"><a href="#cb26-238" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Generally both losses and the error rate decrease as we train more epochs. Training for way too many epochs can cause overfitting, thus the model will perform worse.</span>
+<span id="cb26-239"><a href="#cb26-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-240"><a href="#cb26-240" aria-hidden="true" tabindex="-1"></a><span class="fu">## Understanding Error Rate vs Loss  </span></span>
+<span id="cb26-241"><a href="#cb26-241" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Error rate is binary (right or wrong prediction)</span>
+<span id="cb26-242"><a href="#cb26-242" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Loss measures the model's confidence/uncertainty</span>
+<span id="cb26-243"><a href="#cb26-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-244"><a href="#cb26-244" aria-hidden="true" tabindex="-1"></a>  Example:  </span>
+<span id="cb26-245"><a href="#cb26-245" aria-hidden="true" tabindex="-1"></a>    Prediction 1: Car (60% confident) ✓ Correct  </span>
+<span id="cb26-246"><a href="#cb26-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-247"><a href="#cb26-247" aria-hidden="true" tabindex="-1"></a>    Prediction 2: Car (95% confident) ✓ Still Correct</span>
+<span id="cb26-248"><a href="#cb26-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-249"><a href="#cb26-249" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Both have same error rate (0% - both correct)</span>
+<span id="cb26-250"><a href="#cb26-250" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>But second prediction has lower loss (more confident)</span>
+<span id="cb26-251"><a href="#cb26-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-252"><a href="#cb26-252" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loss Improvement Analysis  </span></span>
+<span id="cb26-253"><a href="#cb26-253" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Model is getting more confident in its correct predictions</span>
+<span id="cb26-254"><a href="#cb26-254" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Less uncertainty in its decisions</span>
+<span id="cb26-255"><a href="#cb26-255" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Better internal representations of features</span>
+<span id="cb26-256"><a href="#cb26-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-257"><a href="#cb26-257" aria-hidden="true" tabindex="-1"></a><span class="fu">## Training Evolution - better internal representation of features example  </span></span>
+<span id="cb26-258"><a href="#cb26-258" aria-hidden="true" tabindex="-1"></a>Early training:  </span>
+<span id="cb26-259"><a href="#cb26-259" aria-hidden="true" tabindex="-1"></a>"This is a car because it has wheels" (less confident, higher loss)  </span>
+<span id="cb26-260"><a href="#cb26-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-261"><a href="#cb26-261" aria-hidden="true" tabindex="-1"></a>Later training:  </span>
+<span id="cb26-262"><a href="#cb26-262" aria-hidden="true" tabindex="-1"></a>"This is a car because it has wheels, specific body shape, headlights, and typical car proportions" (more confident, lower loss)  </span>
+<span id="cb26-263"><a href="#cb26-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-264"><a href="#cb26-264" aria-hidden="true" tabindex="-1"></a>**Changes in loss don't affect actual right/wrong decisions (error rate)**</span>
+<span id="cb26-265"><a href="#cb26-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-266"><a href="#cb26-266" aria-hidden="true" tabindex="-1"></a><span class="fu"># Step 3: Use our model</span></span>
+<span id="cb26-267"><a href="#cb26-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-268"><a href="#cb26-268" aria-hidden="true" tabindex="-1"></a>Let's see what the model thinks about the car we downloaded at the start:</span>
+<span id="cb26-269"><a href="#cb26-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-272"><a href="#cb26-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-273"><a href="#cb26-273" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-274"><a href="#cb26-274" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T08:57:05.828522Z', iopub.execute_input: '2024-10-23T08:57:05.829584Z', iopub.status.idle: '2024-10-23T08:57:05.836230Z', shell.execute_reply.started: '2024-10-23T08:57:05.829531Z', shell.execute_reply: '2024-10-23T08:57:05.834838Z'}</span></span>
+<span id="cb26-275"><a href="#cb26-275" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Model classes:"</span>, learn.dls.vocab)</span>
+<span id="cb26-276"><a href="#cb26-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-277"><a href="#cb26-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-280"><a href="#cb26-280" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-281"><a href="#cb26-281" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-282"><a href="#cb26-282" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T08:57:16.507673Z', iopub.execute_input: '2024-10-23T08:57:16.508143Z', iopub.status.idle: '2024-10-23T08:57:16.948108Z', shell.execute_reply.started: '2024-10-23T08:57:16.508102Z', shell.execute_reply: '2024-10-23T08:57:16.947076Z'}</span></span>
+<span id="cb26-283"><a href="#cb26-283" aria-hidden="true" tabindex="-1"></a>is_car,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'car.jpg'</span>))</span>
+<span id="cb26-284"><a href="#cb26-284" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_car<span class="sc">}</span><span class="ss">."</span>)</span>
+<span id="cb26-285"><a href="#cb26-285" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a car: </span><span class="sc">{</span>probs[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb26-286"><a href="#cb26-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-287"><a href="#cb26-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-290"><a href="#cb26-290" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-291"><a href="#cb26-291" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-292"><a href="#cb26-292" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T09:00:24.594444Z', iopub.execute_input: '2024-10-23T09:00:24.594966Z', iopub.status.idle: '2024-10-23T09:00:25.650688Z', shell.execute_reply.started: '2024-10-23T09:00:24.594925Z', shell.execute_reply: '2024-10-23T09:00:25.649551Z'}</span></span>
+<span id="cb26-293"><a href="#cb26-293" aria-hidden="true" tabindex="-1"></a>is_bicycle,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'bicycle.jpg'</span>))</span>
+<span id="cb26-294"><a href="#cb26-294" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_bicycle<span class="sc">}</span><span class="ss">."</span>)</span>
+<span id="cb26-295"><a href="#cb26-295" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a bicycle: </span><span class="sc">{</span>probs[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb26-296"><a href="#cb26-296" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-297"><a href="#cb26-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-300"><a href="#cb26-300" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-301"><a href="#cb26-301" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-302"><a href="#cb26-302" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T09:01:03.859407Z', iopub.execute_input: '2024-10-23T09:01:03.859862Z', iopub.status.idle: '2024-10-23T09:01:04.041246Z', shell.execute_reply.started: '2024-10-23T09:01:03.859822Z', shell.execute_reply: '2024-10-23T09:01:04.039441Z'}</span></span>
+<span id="cb26-303"><a href="#cb26-303" aria-hidden="true" tabindex="-1"></a>is_scooter,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'scooter.jpg'</span>))</span>
+<span id="cb26-304"><a href="#cb26-304" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_scooter<span class="sc">}</span><span class="ss">."</span>)</span>
+<span id="cb26-305"><a href="#cb26-305" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a scooter: </span><span class="sc">{</span>probs[<span class="dv">2</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb26-306"><a href="#cb26-306" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-307"><a href="#cb26-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-308"><a href="#cb26-308" aria-hidden="true" tabindex="-1"></a>Checking the probability of car image being classified as a bicycle.</span>
+<span id="cb26-309"><a href="#cb26-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-312"><a href="#cb26-312" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-313"><a href="#cb26-313" aria-hidden="true" tabindex="-1"></a><span class="co">#| trusted: true</span></span>
+<span id="cb26-314"><a href="#cb26-314" aria-hidden="true" tabindex="-1"></a><span class="co">#| execution: {iopub.status.busy: '2024-10-23T09:02:07.437820Z', iopub.execute_input: '2024-10-23T09:02:07.438291Z', iopub.status.idle: '2024-10-23T09:02:07.848570Z', shell.execute_reply.started: '2024-10-23T09:02:07.438249Z', shell.execute_reply: '2024-10-23T09:02:07.847212Z'}</span></span>
+<span id="cb26-315"><a href="#cb26-315" aria-hidden="true" tabindex="-1"></a>is_car,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'car.jpg'</span>))</span>
+<span id="cb26-316"><a href="#cb26-316" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_car<span class="sc">}</span><span class="ss">."</span>)</span>
+<span id="cb26-317"><a href="#cb26-317" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability it's a bicycle: </span><span class="sc">{</span>probs[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb26-318"><a href="#cb26-318" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-319"><a href="#cb26-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-320"><a href="#cb26-320" aria-hidden="true" tabindex="-1"></a><span class="fu"># Further/future improvements</span></span>
+<span id="cb26-321"><a href="#cb26-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-322"><a href="#cb26-322" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Data cleaning - Manually removing unclear photos</span>
+<span id="cb26-323"><a href="#cb26-323" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Data augmentation</span>
+<span id="cb26-324"><a href="#cb26-324" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Using a different pre-trained model</span>
+<span id="cb26-325"><a href="#cb26-325" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Different learning rate</span>
+<span id="cb26-326"><a href="#cb26-326" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Use more data</span>
+<span id="cb26-327"><a href="#cb26-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-328"><a href="#cb26-328" aria-hidden="true" tabindex="-1"></a>To run the code yourself, check this <span class="co">[</span><span class="ot">kaggle notebook</span><span class="co">](https://www.kaggle.com/code/elvisvisi/01-own-model?scriptVersionId=202888569)</span>, where I've fine-tuned the model a 2nd time, then I've used resnet34.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
-
 
 
 

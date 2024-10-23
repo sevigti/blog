@@ -1,6 +1,25 @@
 ---
 title: '01 Intro to Machine Learning'
+description: "Build an image recognizer" # Optional - this will appear under the title
 jupyter: python3
+author: "visi"
+date: "2024-10-23"
+categories: 
+    - fastai_course
+    - chapter_1
+    - ML
+toc: true
+toc-title: Contents # Custom title for the TOC
+toc-location: right
+format:
+  html:
+    code-fold: show        # Code shown by default
+    code-tools: true       # Shows the code tools menu
+    code-link: true        # Optional: adds "View source" link
+    code-block-bg: true    # Optional: adds background to code blocks
+    code-block-border-left: "#31BAE9"  # Optional: adds colored border
+    code-overflow: wrap    # Optional: wraps long code lines
+    code-copy: hover       # Optional: shows copy button on hover
 ---
 
 ![](thumbnail.jpg)
@@ -8,11 +27,15 @@ jupyter: python3
 # Goal: Build an image recognizer
 
 
+
 ```{python}
+#| include: false
 #| trusted: true
-#| output: false
+
 ! pip install duckduckgo-search
 ```
+
+Function to search images using DuckDuckGo's search engine
 
 ```{python}
 #| trusted: true
@@ -51,7 +74,7 @@ urls =  search_images('car photos',max_images=1)
 urls[0]
 ```
 
-..and then download a URL and take a look at it:Now let's do the same with "bicycle " and "electric scooter":
+Then download a URL and take a look at it:
 
 ```{python}
 #| trusted: true
@@ -79,11 +102,11 @@ The same with electric scooters
 ```{python}
 #| trusted: true
 #| execution: {iopub.status.busy: '2024-10-23T07:41:46.021330Z', iopub.execute_input: '2024-10-23T07:41:46.022415Z', iopub.status.idle: '2024-10-23T07:41:46.829986Z', shell.execute_reply.started: '2024-10-23T07:41:46.022366Z', shell.execute_reply: '2024-10-23T07:41:46.828642Z'}
-download_url(search_images('electric scooter photos', max_images=1)[0], 'scooter.jpg', show_progress=False)
+download_url(search_images('electric scooter', max_images=1)[0], 'scooter.jpg', show_progress=False)
 Image.open('scooter.jpg').to_thumb(256,256)
 ```
 
-Our searches seem to be giving reasonable results.  Let's grab a few examples of each of "car", "bicycle" and "electric scooter" photos and save each group of photos to a different folder. We will search for day and night photos to grab a range of lighting conditions.
+Our searches seem to be giving reasonable results.  Let's grab a few examples of each of "car", "bicycle" and "electric scooter" photos and save each group of photos to a different folder. We will search for sun and shade photos to grab a range of lighting conditions.
 
 ```{python}
 #| trusted: true
@@ -124,13 +147,14 @@ failed.map(Path.unlink)
 len(failed)
 ```
 
-Understanding DataLoaders
+## Understanding DataLoaders  
+
 To train a model, we'll need DataLoaders, which is an object that contains:
 
 A training set (the images used to create the model)
 A validation set (the images used to check the accuracy of a model)
 
-What goes into the DataLoaders object?
+### What goes into the DataLoaders object?
 Out of hundreds of projects, what are all the things that change from project to project to get the data in the right shape? We can split it down into these components:
 
 1. Input and Output Types
@@ -148,8 +172,8 @@ Out of hundreds of projects, what are all the things that change from project to
     * Uses the parent folder name as the category label
     * Example:
 
-car_bicycle_or_scooter/car/image1.jpg → label is "car"
-car_bicycle_or_scooter/bicycle/image2.jpg → label is "bicycle"
+    car_bicycle_or_scooter/car/image1.jpg → label is "car"
+    car_bicycle_or_scooter/bicycle/image2.jpg → label is "bicycle"
 
 
 5. Image Preprocessing
@@ -186,7 +210,38 @@ Now we're ready to train our model. The fastest widely used computer vision mode
 learn = vision_learner(dls, resnet18, metrics=error_rate)
 learn.fine_tune(3)
 ```
+# Model Training Analysis  
 
+Note: On different code executions we get different results, below we state what is most likely to happen.
+
+* First row shows initial training with high train/valid loss and error rate, indicating the model is just starting to learn.  
+* Generally both losses and the error rate decrease as we train more epochs. Training for way too many epochs can cause overfitting, thus the model will perform worse.
+
+## Understanding Error Rate vs Loss  
+* Error rate is binary (right or wrong prediction)
+* Loss measures the model's confidence/uncertainty
+
+  Example:  
+    Prediction 1: Car (60% confident) ✓ Correct  
+
+    Prediction 2: Car (95% confident) ✓ Still Correct
+
+* Both have same error rate (0% - both correct)
+* But second prediction has lower loss (more confident)
+
+### Loss Improvement Analysis  
+* Model is getting more confident in its correct predictions
+* Less uncertainty in its decisions
+* Better internal representations of features
+
+## Training Evolution - better internal representation of features example  
+Early training:  
+"This is a car because it has wheels" (less confident, higher loss)  
+
+Later training:  
+"This is a car because it has wheels, specific body shape, headlights, and typical car proportions" (more confident, lower loss)  
+
+**Changes in loss don't affect actual right/wrong decisions (error rate)**
 
 # Step 3: Use our model
 
@@ -234,10 +289,10 @@ print(f"Probability it's a bicycle: {probs[0]:.4f}")
 
 # Further/future improvements
 
-Data cleaning - manually removing unclear photos. 
-Data augmentation
-Using a different pre-trained model 
-Different learning rate
-Use more data?
- 
-To run the code yourself, check this kaggle notebook, where I've fine-tuned the model a 2nd time,  then I've used resnet34.
+* Data cleaning - Manually removing unclear photos
+* Data augmentation
+* Using a different pre-trained model
+* Different learning rate
+* Use more data
+
+To run the code yourself, check this [kaggle notebook](https://www.kaggle.com/code/elvisvisi/01-own-model?scriptVersionId=202888569), where I've fine-tuned the model a 2nd time, then I've used resnet34.
