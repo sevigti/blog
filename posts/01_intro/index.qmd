@@ -30,6 +30,17 @@ format:
 
 # Goal: Build an image recognizer
 
+1. We will train a model that can recognize car, bicycle and electric scooter photos. To do this, we'll be downloading a dataset of car, bicycle and electric scooter photos, and using that to train a model.  
+<span style="color: #800080;">A data set is simply a bunch of data - in our cases it is a bunch of images.  
+It's not enough to just have examples of input data; we need labels for that data too. We will organize the photos in their respective folders and use their parent folder as their label.
+</span>
+
+2. We will use a pretrained model(resnet18) that has already been trained on 1.3 million images.  
+<span style="color: #800080;">A model can only learn to operate on the patterns seen in the input data used to train it.  
+ Most of the time picking an architecture isn't a very important part of the deep learning process. There are some standard architectures that work most of the time, and in this case we're using one called ResNet
+</span>
+
+3. The pretrained model will be fine-tuned using the latest advances in transfer learning, to create a model that is specially customized for recognizing cars, bicycles and electric scooters. 
 
 
 ```{python}
@@ -219,7 +230,7 @@ learn.fine_tune(3)
 Note: On different code executions we get different results, below we state what is most likely to happen.
 
 * First row shows initial training with high train/valid loss and error rate, indicating the model is just starting to learn.  
-* Generally both losses and the error rate decrease as we train more epochs. Training for way too many epochs can cause overfitting, thus the model will perform worse.
+* Generally both losses and the error rate decrease as we train more epochs. Training for way too many epochs can cause overfitting, <span style="color: #800080;">it will start getting worse as the model starts to memorize the training set, rather than finding generalizable underlying patterns in the data.</span>
 
 ## Understanding Error Rate vs Loss  
 * Error rate is binary (right or wrong prediction)
