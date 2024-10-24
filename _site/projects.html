@@ -134,12 +134,11 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="anki" class="level2">
-<h2 class="anchored" data-anchor-id="anki"><a href="https://github.com/sevigti/">Anki</a></h2>
+<section id="soon" class="level2">
+<h2 class="anchored" data-anchor-id="soon"><a href="https://github.com/sevigti/">Soon</a></h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://github.com/sevigti/"><img src="images/anki.jpg" class="img-fluid figure-img"></a></p>
-<figcaption class="figure-caption">Tic tac toe</figcaption>
 </figure>
 </div>
 <p>To be started soon.</p>
@@ -495,7 +494,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp("https:\/\/sevigti\.quarto\.pub\/visi");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href);
     }

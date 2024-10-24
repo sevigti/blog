@@ -2,9 +2,9 @@
 title: "Projects"
 ---
 
-## [Anki](https://github.com/sevigti/)
+## [Soon](https://github.com/sevigti/)
 
-[![Tic tac toe](images/anki.jpg)](https://github.com/sevigti/)
+[![](images/anki.jpg)](https://github.com/sevigti/)
 
 To be started soon.
 

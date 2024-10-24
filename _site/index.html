@@ -160,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="fastai_course,chapter_1,ML" data-listing-date-sort="1729634400000" data-listing-file-modified-sort="1729707714014" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="quarto-post image-right" data-index="0" data-categories="fastai_course,chapter_1,ML" data-listing-date-sort="1729634400000" data-listing-file-modified-sort="1729759065534" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <div class="thumbnail">
 <p><a href="./posts/01_intro/index.html"> <p class="card-img-top"><img src="posts/01_intro/thumbnail.jpg"  class="thumbnail-image card-img"/></p> </a></p>
 </div>
@@ -553,7 +553,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp("https:\/\/sevigti\.quarto\.pub\/visi");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href);
     }

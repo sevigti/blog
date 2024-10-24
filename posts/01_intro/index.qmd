@@ -8,6 +8,10 @@ categories:
     - fastai_course
     - chapter_1
     - ML
+execute:
+  eval: false      # Add this to prevent execution
+  echo: true
+  freeze: true     # Add this too
 toc: true
 toc-title: Contents # Custom title for the TOC
 toc-location: right

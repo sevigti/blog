@@ -4,7 +4,9 @@ project:
   render:
     - "*.qmd"
 execute:
-  freeze: true      # Freeze all computations
+  eval: false      # Add this
+  freeze: true
+  cache: true
 website:
   title: "blog"
   navbar:
