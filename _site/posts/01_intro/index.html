@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-10-23">
 <meta name="description" content="Build an image recognizer">
 
-<title>blog - 01 Intro to Machine Learning</title>
+<title>01 Intro to Machine Learning – blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -84,7 +84,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -93,6 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -109,43 +116,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">blog</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects.html" rel="" target="">
- <span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/sevigti" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/sevigti"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://x.com/elvis_visi23" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://x.com/elvis_visi23"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -168,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page-left">
 
       <div>
       <div class="quarto-title-meta-heading">Author</div>
@@ -223,6 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+
 <p><img src="thumbnail.jpg" class="img-fluid"></p>
 <section id="goal-build-an-image-recognizer" class="level1">
 <h1>Goal: Build an image recognizer</h1>
@@ -237,7 +245,7 @@ Most of the time picking an architecture isn’t a very important part of the de
 </ol>
 <p>Function to search images using DuckDuckGo’s search engine</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:21.485492Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:21.484926Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:21.494577Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:21.492500Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:21.485436Z&quot;}" data-execution_count="3">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> duckduckgo_search <span class="im">import</span> DDGS</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
@@ -265,7 +273,7 @@ Most of the time picking an architecture isn’t a very important part of the de
 </div>
 <p>Let’s start by searching for a car photo and seeing what kind of result we get. We’ll start by getting URLs from a search:</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:25.674118Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:25.672918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:26.456082Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:26.454904Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:25.674065Z&quot;}" data-execution_count="4">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get images urls, in this case just 1 url</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>urls <span class="op">=</span>  search_images(<span class="st">'car photos'</span>,max_images<span class="op">=</span><span class="dv">1</span>)</span>
@@ -280,7 +288,7 @@ Most of the time picking an architecture isn’t a very important part of the de
 </div>
 <p>Then download a URL and take a look at it:</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:29.883251Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:29.882722Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:38.661797Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:38.660264Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:29.883202Z&quot;}" data-execution_count="5">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastdownload <span class="im">import</span> download_url</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dest <span class="op">=</span> <span class="st">'car.jpg'</span></span>
@@ -291,12 +299,16 @@ Most of the time picking an architecture isn’t a very important part of the de
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>im.to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Now let’s do the same with “bicycle”:</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:42.016219Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:42.015777Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:46.010197Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:46.008767Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:42.016174Z&quot;}" data-execution_count="6">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>download_url(search_images(<span class="st">'bicycle photos'</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">'bicycle.jpg'</span>, show_progress<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Image.<span class="bu">open</span>(<span class="st">'bicycle.jpg'</span>).to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -305,12 +317,16 @@ Most of the time picking an architecture isn’t a very important part of the de
 <pre><code>Searching for 'bicycle photos'</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The same with electric scooters</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:46.022415Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:46.021330Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:41:46.829986Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:41:46.828642Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:46.022366Z&quot;}" data-execution_count="7">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>download_url(search_images(<span class="st">'electric scooter'</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">'scooter.jpg'</span>, show_progress<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Image.<span class="bu">open</span>(<span class="st">'scooter.jpg'</span>).to_thumb(<span class="dv">256</span>,<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -319,12 +335,16 @@ Most of the time picking an architecture isn’t a very important part of the de
 <pre><code>Searching for 'electric scooter'</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Our searches seem to be giving reasonable results. Let’s grab a few examples of each of “car”, “bicycle” and “electric scooter” photos and save each group of photos to a different folder. We will search for sun and shade photos to grab a range of lighting conditions.</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:41:51.131104Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:41:51.130669Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:44:30.471339Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:44:30.469452Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:41:51.131064Z&quot;}" data-execution_count="8">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>searches <span class="op">=</span> <span class="st">'car'</span>,<span class="st">'bicycle'</span>,<span class="st">'electric scooter'</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'car_bicycle_or_scooter'</span>)</span>
@@ -362,7 +382,7 @@ Searching for 'electric scooter shade photo'</code></pre>
 <h1>Step 2: train our model</h1>
 <p>Some photos might not download correctly which could cause our model training to fail, so we’ll remove them:</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T07:44:31.231518Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T07:44:31.231100Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T07:44:31.881290Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T07:44:31.879831Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T07:44:31.231476Z&quot;}" data-execution_count="9">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>failed <span class="op">=</span> verify_images(get_image_files(path))</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>failed.<span class="bu">map</span>(Path.unlink)</span>
@@ -417,7 +437,7 @@ Searching for 'electric scooter shade photo'</code></pre>
 </ul></li>
 </ol>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:20:52.582456Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:20:52.582015Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:20:53.738024Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:20:53.736864Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:20:52.582414Z&quot;}" data-execution_count="10">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataBlock(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
@@ -432,12 +452,16 @@ Searching for 'electric scooter shade photo'</code></pre>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">6</span>) <span class="co"># shows 6 images from a batch, displays both images and their labels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-10-output-1.png" width="689" height="478"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-10-output-1.png" width="689" height="478" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Now we’re ready to train our model. The fastest widely used computer vision model is resnet18. You can train this in a few minutes,even on a CPU! (On a GPU, it generally takes under 10 seconds…)fastai comes with a helpful fine_tune() method which automatically uses best practices for fine tuning a pre-trained model, sowe’ll use that.</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:30:11.299386Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:30:11.298910Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:31:54.838394Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:31:54.837078Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:30:11.299329Z&quot;}" data-execution_count="11">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a vison learner using the DataLoaders we created above, resNet18 pre-trained model, and a metrics to measure the error rate.</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, resnet18, metrics<span class="op">=</span>error_rate)</span>
@@ -462,7 +486,7 @@ Searching for 'electric scooter shade photo'</code></pre>
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -502,7 +526,7 @@ Searching for 'electric scooter shade photo'</code></pre>
 </style>
 </div>
 <div class="cell-output cell-output-display">
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">epoch</th>
@@ -582,7 +606,7 @@ Prediction 1: Car (60% confident) ✓ Correct</p>
 <h1>Step 3: Use our model</h1>
 <p>Let’s see what the model thinks about the car we downloaded at the start:</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:57:05.829584Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:57:05.828522Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:57:05.836230Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:57:05.834838Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:57:05.829531Z&quot;}" data-execution_count="12">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Model classes:"</span>, learn.dls.vocab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -591,7 +615,7 @@ Prediction 1: Car (60% confident) ✓ Correct</p>
 </div>
 </div>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T08:57:16.508143Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T08:57:16.507673Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T08:57:16.948108Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T08:57:16.947076Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T08:57:16.508102Z&quot;}" data-execution_count="13">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>is_car,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'car.jpg'</span>))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_car<span class="sc">}</span><span class="ss">."</span>)</span>
@@ -624,7 +648,7 @@ Probability it's a car: 1.0000</code></pre>
 </div>
 </div>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:00:24.594966Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:00:24.594444Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:00:25.650688Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:00:25.649551Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:00:24.594925Z&quot;}" data-execution_count="14">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>is_bicycle,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'bicycle.jpg'</span>))</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_bicycle<span class="sc">}</span><span class="ss">."</span>)</span>
@@ -657,7 +681,7 @@ Probability it's a bicycle: 0.9997</code></pre>
 </div>
 </div>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:01:03.859862Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:01:03.859407Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:01:04.041246Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:01:04.039441Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:01:03.859822Z&quot;}" data-execution_count="15">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>is_scooter,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'scooter.jpg'</span>))</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_scooter<span class="sc">}</span><span class="ss">."</span>)</span>
@@ -691,7 +715,7 @@ Probability it's a scooter: 1.0000</code></pre>
 </div>
 <p>Checking the probability of car image being classified as a bicycle.</p>
 <div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-10-23T09:02:07.438291Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-10-23T09:02:07.437820Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-10-23T09:02:07.848570Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-10-23T09:02:07.847212Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-10-23T09:02:07.438249Z&quot;}" data-execution_count="16">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>is_car,_,probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'car.jpg'</span>))</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_car<span class="sc">}</span><span class="ss">."</span>)</span>
@@ -784,6 +808,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
   }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
   const toggleColorMode = (alternate) => {
     // Switch the stylesheets
     const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
@@ -850,13 +901,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -891,18 +944,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -934,7 +976,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
   const viewSource = window.document.getElementById('quarto-view-source') ||
                      window.document.getElementById('quarto-code-tools-source');
   if (viewSource) {
@@ -986,10 +1050,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -999,8 +1085,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1012,7 +1107,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1056,6 +1274,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1081,6 +1300,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1138,20 +1383,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb26" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
@@ -1187,14 +1418,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="fu"># Goal: Build an image recognizer</span></span>
 <span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>We will train a model that can recognize car, bicycle and electric scooter photos. To do this, we'll be downloading a dataset of car, bicycle and electric scooter photos, and using that to train a model.  </span>
-<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color: #800080;"</span><span class="kw">&gt;</span>A data set is simply a bunch of data - in our cases it is a bunch of images.  </span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>&lt;span style="color: #800080;"&gt;A data set is simply a bunch of data - in our cases it is a bunch of images.  </span>
 <span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>It's not enough to just have examples of input data; we need labels for that data too. We will organize the photos in their respective folders and use their parent folder as their label.</span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/span&gt;</span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>&lt;/span&gt;</span>
 <span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>We will use a pretrained model(resnet18) that has already been trained on 1.3 million images.  </span>
-<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color: #800080;"</span><span class="kw">&gt;</span>A model can only learn to operate on the patterns seen in the input data used to train it.  </span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>&lt;span style="color: #800080;"&gt;A model can only learn to operate on the patterns seen in the input data used to train it.  </span>
 <span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a> Most of the time picking an architecture isn't a very important part of the deep learning process. There are some standard architectures that work most of the time, and in this case we're using one called ResNet</span>
-<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/span&gt;</span></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>&lt;/span&gt;</span>
 <span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The pretrained model will be fine-tuned using the latest advances in transfer learning, to create a model that is specially customized for recognizing cars, bicycles and electric scooters. </span>
 <span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a></span>
@@ -1386,7 +1617,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb26-250"><a href="#cb26-250" aria-hidden="true" tabindex="-1"></a>Note: On different code executions we get different results, below we state what is most likely to happen.</span>
 <span id="cb26-251"><a href="#cb26-251" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-252"><a href="#cb26-252" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>First row shows initial training with high train/valid loss and error rate, indicating the model is just starting to learn.  </span>
-<span id="cb26-253"><a href="#cb26-253" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Generally both losses and the error rate decrease as we train more epochs. Training for way too many epochs can cause overfitting, <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color: #800080;"</span><span class="kw">&gt;</span>it will start getting worse as the model starts to memorize the training set, rather than finding generalizable underlying patterns in the data.<span class="kw">&lt;/span&gt;</span></span>
+<span id="cb26-253"><a href="#cb26-253" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Generally both losses and the error rate decrease as we train more epochs. Training for way too many epochs can cause overfitting, &lt;span style="color: #800080;"&gt;it will start getting worse as the model starts to memorize the training set, rather than finding generalizable underlying patterns in the data.&lt;/span&gt;</span>
 <span id="cb26-254"><a href="#cb26-254" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-255"><a href="#cb26-255" aria-hidden="true" tabindex="-1"></a><span class="fu">## Understanding Error Rate vs Loss  </span></span>
 <span id="cb26-256"><a href="#cb26-256" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Error rate is binary (right or wrong prediction)</span>
@@ -1467,9 +1698,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb26-341"><a href="#cb26-341" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Use more data</span>
 <span id="cb26-342"><a href="#cb26-342" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-343"><a href="#cb26-343" aria-hidden="true" tabindex="-1"></a>To run the code yourself, check this <span class="co">[</span><span class="ot">kaggle notebook</span><span class="co">](https://www.kaggle.com/code/elvisvisi/01-own-model?scriptVersionId=202888569)</span>, where I've fine-tuned the model a 2nd time, then I've used resnet34.</span>
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
+
 
 
 

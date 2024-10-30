@@ -1,18 +1,31 @@
 ---
-title: "2.Image Classifier: Cleaning Data"
+title: "02.Image Classifier: Cleaning Data"
+description: "Data cleaning and preparation for deep learning"
+jupyter: python3
 author: "visi"
 date: "2024-10-30"
-categories: [fastai_course, ML, chapter2]
-image: "thumbnail.jpg"
+categories:
+    - fastai_course
+    - ML
+    - chapter_2
+execute:
+  eval: false
+  echo: true
+  freeze: true
+  warning: false    # Add this line to hide warnings
+toc: true
+toc-title: Contents
+toc-location: right
 format:
   html:
-    code-fold: true
-jupyter: python3
-execute:
-  echo: true
-  eval: true
+    code-fold: show
+    code-tools: true
+    code-link: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    code-overflow: wrap
+    code-copy: hover
 ---
-
 
 ```{python}
 
