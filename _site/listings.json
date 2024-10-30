@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/02_image_classifier_clean/index.html",
       "/posts/01_intro/index.html"
     ]
   }

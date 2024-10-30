@@ -25,5 +25,11 @@
   },
   "posts/01_intro/01-own-model.qmd": {
     "01-own-model.html": "12728bc5"
+  },
+  "posts/02_image_classifier_clean/index.qmd": {
+    "index.html": "d7ece2bd"
+  },
+  "posts/02_image_classifier_clean/2.image classifier.qmd": {
+    "2.image classifier.html": "7fc40930"
   }
 }

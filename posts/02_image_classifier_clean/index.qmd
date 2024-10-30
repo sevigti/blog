@@ -1,0 +1,301 @@
+---
+title: "2.Image Classifier: Cleaning Data"
+author: "visi"
+date: "2024-10-30"
+categories: [fastai_course, ML, chapter2]
+image: "thumbnail.jpg"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+execute:
+  echo: true
+  eval: true
+---
+
+
+```{python}
+
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+
+# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
+# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+```
+
+
+discuss the capabilities and constraints of deep learning,
+explore how to create datasets,
+look at possible gotchas when using deep learning in practice, and more.
+
+When selecting a project, the most important consideration is data availability. The goal is not to find the "perfect" dataset or project, but just to get started and iterate from there.
+
+
+
+
+
+1. we will expand on the car, bicycle and electric scooter image classifier from chapter 1
+
+2. using bing serach
+
+3. DataLoaders and what they are/do
+
+4. why squishing or cropping not not ideal
+
+5. what to use instead;
+Instead, what we normally do in practice is to randomly select part of the image, and crop to just that part. On each epoch (which is one complete pass through all of our images in the dataset) we randomly select a different part of each image. This means that our model can learn to focus on, and recognize, different features in our images. It also reflects how images work in the real world: different photos of the same thing may be framed in slightly different ways.
+
+
+
+```{python}
+from fastai.vision.widgets import *
+```
+
+```{python}
+!  pip install -Uqq fastbook
+import fastbook
+fastbook.setup_book()
+```
+
+```{python}
+from fastbook import *
+from fastai.vision.widgets import *
+```
+
+```{python}
+search_images_ddg
+```
+
+# image recognizer for car, bicycle and electric scooter  
+Download images of cars using ddg
+
+```{python}
+results = search_images_ddg('car') # list of urls of cars
+ims = results.attrgot('contentUrl')
+len(ims)
+```
+
+```{python}
+results[0]
+```
+
+```{python}
+ ??verify_images   # documentation of a function 
+```
+
+```{python}
+ims = ['https://th.bing.com/th/id/OIP.XQ6CyncXgEdljRssh_LAIwHaEK?rs=1&pid=ImgDetMain']
+```
+
+```{python}
+dest = 'images/car.jpg'
+download_url(ims[0], dest)
+```
+
+```{python}
+im = Image.open(dest)
+im.to_thumb(128,128)
+```
+
+Use fastai's download_images to download all the URLs for each of our search terms. We'll put each in a separate folder:
+
+```{python}
+searches = 'car','bicycle','e-scooter' 
+path = Path('car_bicycle_or_escooter')
+```
+
+```{python}
+if not path.exists():
+    path.mkdir()
+    for o in searches:
+        dest = (path/o)
+        dest.mkdir(exist_ok=True)
+        results = search_images_ddg(f'{o}',100)
+        download_images(dest, urls=results)
+```
+
+```{python}
+fns = get_image_files(path)
+fns
+```
+
+Folder sctructure. 272 labelled images downloaded above.  
+![image.png](folder_structure.png)
+
+Often when we download files from the internet, there are a few that are corrupt. Let's check:
+
+```{python}
+failed = verify_images(fns)
+failed
+```
+
+```{python}
+failed.map(Path.unlink)
+```
+
+```{python}
+fns = get_image_files(path)  # get new list of the files in our path
+fns  # from 272, now we have 254 files, after unlinking the corrupted files.
+```
+
+# Data Loaders  
+
+A fastai class that stores multiple DataLoader objects you pass to it, normally a train and valid. The first two are available as properties. To turn our downloaded data into a DataLoaders object we need to tell fastai at least four things:
+
+
+
+* What kind of data are we working with
+* How to get the list of items
+* How to label these items
+* How to create the validation set
+
+Independent variable is the thing we are using to make predictions from, and the dependent variable is our target. In our case the independent variables are the images,and our dependent variables are the categories(car, bicycle, electric scooter)  
+
+get_image_files function takes a path, and returns a list of all of the images in that path (recursively, by default):
+
+we simply want to split our training and validation sets randomly. However, we would like to have the same training/validation split each time we run this notebook, so we fix the random seed (computers don't really know how to create random numbers at all, but simply create lists of numbers that look random; if you provide the same starting point for that list each time—called the seed—then you will get the exact same list each time):
+
+The independent variable is often referred to as x and the dependent variable is often referred to as y. Here, we are telling fastai what function to call to create the labels in our dataset:
+
+parent_label is a function provided by fastai that simply gets the name of the folder a file is in. Because we put each of our searches images into folders named after them, this is going to give us the labels that we need.
+
+Our images are all different sizes, and this is a problem for deep learning: we don't feed the model one image at a time but several of them (what we call a mini-batch). To group them in a big array (usually called a tensor) that is going to go through our model, they all need to be of the same size.
+
+This command has given us a DataBlock object. This is like a template for creating a DataLoaders. We still need to tell fastai the actual source of our data—in this case, the path where the images can be found:
+
+```{python}
+data = DataBlock(
+    blocks=(ImageBlock, CategoryBlock), 
+    get_items=get_image_files, 
+    splitter=RandomSplitter(valid_pct=0.2, seed=42),
+    get_y=parent_label,
+    item_tfms=Resize(128))
+```
+
+```{python}
+dls = data.dataloaders(path)
+```
+
+A DataLoader includes validation and training DataLoaders. DataLoader is a class that provides batches of a few items at a time to the GPU. When you loop through a DataLoader fastai will give you 64 (by default) items at a time, all stacked up into a single tensor. We can take a look at a few of those items by calling the show_batch method on a DataLoader:
+
+```{python}
+dls.valid.show_batch(max_n=5, nrows=1)
+```
+
+By default Resize crops the images to fit a square shape of the size requested, using the full width or height. This can result in losing some important details. Alternatively, you can ask fastai to pad the images with zeros (black), or squish/stretch them
+
+```{python}
+data = data.new(item_tfms=Resize(128, ResizeMethod.Pad, pad_mode='zeros'))
+dls = data.dataloaders(path)
+dls.valid.show_batch(max_n=5, nrows=1)
+```
+
+All of these approaches seem somewhat wasteful, or problematic. If we squish or stretch the images they end up as unrealistic shapes, leading to a model that learns that things look different to how they actually are, which we would expect to result in lower accuracy.
+
+Instead, what we normally do in practice is to randomly select part of the image, and crop to just that part. On each epoch (which is one complete pass through all of our images in the dataset) we randomly select a different part of each image. This means that our model can learn to focus on, and recognize, different features in our images. It also reflects how images work in the real world: different photos of the same thing may be framed in slightly different ways.
+
+In fact, an entirely untrained neural network knows nothing whatsoever about how images behave. It doesn't even recognize that when an object is rotated by one degree, it still is a picture of the same thing! So actually training the neural network with examples of images where the objects are in slightly different places and slightly different sizes helps it to understand the basic concept of what an object is, and how it can be represented in an image.
+
+Here's another example where we replace Resize with RandomResizedCrop, which is the transform that provides the behavior we just described. The most important parameter to pass in is min_scale, which determines how much of the image to select at minimum each time:
+
+```{python}
+data = data.new(item_tfms=RandomResizedCrop(128, min_scale=0.3))
+dls = data.dataloaders(path)
+dls.train.show_batch(max_n=5, nrows=1, unique=True)
+```
+
+# Data augmentation  
+
+Data augmentation refers to creating random variations of our input data, such that they appear different, but do not actually change the meaning of the data. Examples of common data augmentation techniques for images are rotation, flipping, perspective warping, brightness changes and contrast changes.
+
+Because our images are now all the same size, we can apply these augmentations to an entire batch of them using the GPU, which will save a lot of time. To tell fastai we want to use these transforms on a batch, we use the batch_tfms
+
+```{python}
+data = data.new(item_tfms=Resize(128), batch_tfms=aug_transforms(mult=2))
+dls = data.dataloaders(path)
+dls.train.show_batch(max_n=8, nrows=2, unique=True)
+```
+
+# Training Your Model, and Using It to Clean Your Data  
+
+We don't have a lot of data(253 files) for our problem so to train our model, we'll use RandomResizedCrop with an image size of 224 px, which is fairly standard for image classification, and default aug_transforms
+
+```{python}
+data = data.new(
+    item_tfms=RandomResizedCrop(224, min_scale=0.5),
+    batch_tfms=aug_transforms())
+dls = data.dataloaders(path)
+```
+
+We can now create our Learner and fine-tune it in the usual way
+
+```{python}
+learn = vision_learner(dls, resnet18, metrics=error_rate)
+learn.fine_tune(4)
+```
+
+# confusion matrix  
+
+It's helpful to see where exactly our errors are occurring, to see whether they're due to a dataset problem (e.g., images that aren't bears at all, or are labeled incorrectly, etc.), or a model problem (perhaps it isn't handling images taken with unusual lighting, or from a different angle, etc.). To do this, we can sort our images by their loss. The loss is a number that is higher if the model is incorrect (especially if it's also confident of its incorrect answer), or if it's correct, but not confident of its correct answer.
+
+```{python}
+interp = ClassificationInterpretation.from_learner(learn)
+interp.plot_confusion_matrix()
+```
+
+ # Plot_top_losses
+ For now, plot_top_losses shows us the images with the highest loss in our dataset. As the title of the output says, each image is labeled with four things: prediction, actual (target label), loss, and probability. The probability here is the confidence level, from zero to one, that the model has assigned to its prediction:
+
+```{python}
+interp.plot_top_losses(5, nrows=1)
+```
+
+# Data Cleaning  
+
+Cleaning the data and getting it ready for your model are two of the biggest challenges for data scientists; they say it takes 90% of their time. The fastai library aims to provide tools that make it as easy as possible.
+
+```{python}
+#hide_output
+cleaner = ImageClassifierCleaner(learn)
+cleaner
+```
+
+car - card brands logos   
+scooter - motor bike scooter.  
+bicycle - motorbikes
+
+```{python}
+cleaner.delete()  
+```
+
+Execute the below code after each marking, e.g marking car-train for deletion. 
+
+```{python}
+for idx in cleaner.delete(): cleaner.fns[idx].unlink()
+for idx,cat in cleaner.change(): shutil.move(str(cleaner.fns[idx]), path/cat)
+```
+
+```{python}
+fns = get_image_files(path)
+fns
+```
+
+# Once we've cleaned up our data, we can retrain our model.   
+Try it yourself, and see if your accuracy improves! After data cleaning we have 229 files from 254.
+
+```{python}
+data = data.new(
+    item_tfms=RandomResizedCrop(224, min_scale=0.5),
+    batch_tfms=aug_transforms())
+dls = data.dataloaders(path)
+```
+
+```{python}
+learn = vision_learner(dls, resnet18, metrics=error_rate)
+learn.fine_tune(4)
+```
+
+Now we get much lower error rate, compared to before cleaning the data.  As you can see, the common complaint that you need massive amounts of data to do deep learning can be a very long way from the truth
+
